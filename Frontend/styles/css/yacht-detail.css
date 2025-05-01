@@ -1,0 +1,527 @@
+/* Styles spécifiques pour la page de détail de yacht */
+
+/* Correction pour le header */
+header {
+    background-color: #0a4b78;
+}
+
+header nav ul li a {
+    color: #fff;
+}
+
+header .logo {
+    color: #fff;
+}
+
+/* Fil d'ariane */
+.breadcrumb {
+    padding: 100px 20px 20px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    color: #0a4b78;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb span {
+    color: #666;
+    margin-left: 5px;
+}
+
+/* Section titre du yacht */
+.yacht-title-section {
+    padding: 30px 0;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eee;
+}
+
+.yacht-title-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.yacht-title h1 {
+    font-size: 32px;
+    color: #0a4b78;
+    margin: 0 0 10px;
+}
+
+.yacht-location {
+    color: #666;
+    font-size: 16px;
+}
+
+.yacht-price {
+    text-align: right;
+}
+
+.price-amount {
+    font-size: 26px;
+    font-weight: bold;
+    color: #d9a82e;
+}
+
+.price-converted {
+    color: #666;
+    font-size: 16px;
+}
+
+.navigation-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigation-buttons a {
+    color: #0a4b78;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navigation-buttons a:hover {
+    color: #d9a82e;
+}
+
+/* Section galerie et contact */
+.yacht-gallery-section {
+    padding: 40px 0;
+    background-color: #fff;
+}
+
+.gallery-contact-wrapper {
+    display: flex;
+    gap: 30px;
+}
+
+/* Galerie principale */
+.main-gallery {
+    flex: 2;
+}
+
+.main-image {
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 60px;
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail.active, .thumbnail:hover {
+    opacity: 1;
+}
+
+.gallery-nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-btn {
+    cursor: pointer;
+    color: #0a4b78;
+    font-weight: bold;
+}
+
+.gallery-counter {
+    color: #666;
+    font-size: 14px;
+}
+
+.gallery-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.action-btn {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+    background-color: #e5e5e5;
+}
+
+.icon {
+    font-size: 18px;
+}
+
+/* Carte contact courtier */
+.broker-contact {
+    flex: 1;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    align-self: flex-start;
+}
+
+.broker-info {
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.broker-logo {
+    width: 150px;
+    height: 60px;
+    margin: 0 auto 15px;
+}
+
+.broker-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.broker-info h3 {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.broker-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0a4b78;
+    margin-bottom: 10px;
+}
+
+.phone-link {
+    display: inline-block;
+    color: #0a4b78;
+    text-decoration: none;
+    padding: 8px 15px;
+    border: 1px solid #0a4b78;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.phone-link:hover {
+    background-color: #0a4b78;
+    color: #fff;
+}
+
+.contact-form h3 {
+    font-size: 18px;
+    color: #0a4b78;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: #d9a82e;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #c7971e;
+}
+
+/* Section caractéristiques */
+.yacht-specs-section {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.section-title {
+    font-size: 26px;
+    color: #0a4b78;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: #d9a82e;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px;
+}
+
+.spec-item {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.spec-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.spec-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Section description */
+.yacht-description-section {
+    padding: 60px 0;
+    background-color: #fff;
+}
+
+.description-content {
+    line-height: 1.8;
+    color: #333;
+}
+
+.description-content p {
+    margin-bottom: 20px;
+}
+
+.description-content h3 {
+    font-size: 20px;
+    color: #0a4b78;
+    margin: 30px 0 15px;
+}
+
+/* Section yachts similaires */
+.similar-yachts-section {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+/* Réutilisation des styles de carte de yacht depuis acheter.css */
+.yacht-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.yacht-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.yacht-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.yacht-image {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.yacht-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.yacht-card:hover .yacht-image img {
+    transform: scale(1.05);
+}
+
+.yacht-type {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(10, 75, 120, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.yacht-details {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.yacht-name {
+    font-size: 18px;
+    color: #0a4b78;
+    margin-bottom: 10px;
+}
+
+.yacht-price {
+    font-size: 20px;
+    color: #d9a82e;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.yacht-specs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.spec-item {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    align-items: center;
+}
+
+.yacht-location {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.yacht-link {
+    display: inline-block;
+    color: #0a4b78;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.yacht-link:hover {
+    color: #d9a82e;
+}
+
+/* Responsive */
+@media screen and (max-width: 980px) {
+    .gallery-contact-wrapper {
+        flex-direction: column;
+    }
+    
+    .main-gallery {
+        margin-bottom: 30px;
+    }
+    
+    .yacht-title-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .yacht-price {
+        text-align: left;
+        margin-top: 15px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-image {
+        height: 350px;
+    }
+    
+    .thumbnail {
+        width: 60px;
+        height: 45px;
+    }
+    
+    .specs-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .yacht-title h1 {
+        font-size: 24px;
+    }
+    
+    .gallery-actions {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .main-image {
+        height: 250px;
+    }
+}

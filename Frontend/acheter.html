@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navalfleet - Acheter votre yacht de rêve</title>
+    <!-- Liens vers les fichiers CSS -->
+    <link rel="stylesheet" href="styles/css/index.css">
+    <link rel="stylesheet" href="styles/css/acheter.css">
+    <link rel="stylesheet" href="styles/css/cart-counter.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Naval<span>Fleet</span></div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index.html#apropos">À propos</a></li>
+                        <li><a href="acheter.html" class="active">Acheter</a></li>
+                        <li><a href="panier.html">Panier</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="search-hero">
+        <div class="container">
+            <h1>Trouvez votre yacht idéal</h1>
+            <div class="search-box">
+                <input type="text" placeholder="Rechercher par mot-clé, marque, modèle...">
+                <button class="search-button">Rechercher</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <main class="yacht-listing-container">
+        <div class="container">
+            <!-- Filtres -->
+            <aside class="filters-sidebar">
+                <div class="filter-section">
+                    <h3>Type de bateau</h3>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="mega-yacht"> Mega Yacht
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="catamaran"> Catamaran
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="motoryacht"> Motoryacht
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="voilier"> Voilier
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Longueur</h3>
+                    <div class="range-filter">
+                        <div class="range-inputs">
+                            <input type="number" placeholder="Min" class="min-input"> à 
+                            <input type="number" placeholder="Max" class="max-input"> m
+                        </div>
+                        <button class="apply-range">Appliquer</button>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Prix</h3>
+                    <div class="range-filter">
+                        <div class="range-inputs">
+                            <input type="number" placeholder="Min" class="min-input"> à 
+                            <input type="number" placeholder="Max" class="max-input"> €
+                        </div>
+                        <button class="apply-range">Appliquer</button>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Année</h3>
+                    <div class="range-filter">
+                        <div class="range-inputs">
+                            <input type="number" placeholder="Min" class="min-input"> à 
+                            <input type="number" placeholder="Max" class="max-input">
+                        </div>
+                        <button class="apply-range">Appliquer</button>
+                    </div>
+                </div>
+
+                <button class="reset-filters">Réinitialiser les filtres</button>
+            </aside>
+
+            <!-- Liste des yachts -->
+            <div class="yacht-results">
+                <div class="results-header">
+                    <div class="results-count">24 yachts trouvés</div>
+                    <div class="sort-options">
+                        <label for="sort-select">Trier par:</label>
+                        <select id="sort-select">
+                            <option value="relevance">Pertinence</option>
+                            <option value="price-asc">Prix (croissant)</option>
+                            <option value="price-desc">Prix (décroissant)</option>
+                            <option value="year-desc">Année (récent)</option>
+                            <option value="length-desc">Longueur (décroissant)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="yacht-grid">
+                    <!-- Yacht 1 -->
+                    <div class="yacht-card">
+                        <div class="yacht-image">
+                            <img src="styles/img/Bateauaccueil1.png" alt="2021 Tecnomar 63">
+                            <div class="yacht-type">Motoryacht</div>
+                        </div>
+                        <div class="yacht-details">
+                            <h3 class="yacht-name">2021 Tecnomar 63</h3>
+                            <p class="yacht-price">€ 3,790,000 Hors Taxes</p>
+                            <div class="yacht-specs">
+                                <div class="spec-item"><i class="icon-length"></i>19m</div>
+                                <div class="spec-item"><i class="icon-year"></i>2021</div>
+                                <div class="spec-item"><i class="icon-engine"></i>3999hp</div>
+                            </div>
+                            <p class="yacht-location">Cannes, Alpes-Maritimes (06)</p>
+                            <a href="yacht-detail4.html" class="yacht-link">Voir les détails →</a>
+                        </div>
+                    </div>
+
+                    <!-- Yacht 2 -->
+                    <div class="yacht-card">
+                        <div class="yacht-image">
+                            <img src="styles/img/Bateauaccueil2.png" alt="2023 Heysea Asteria 142">
+                            <div class="yacht-type">Mega Yacht</div>
+                        </div>
+                        <div class="yacht-details">
+                            <h3 class="yacht-name">2023 Heysea Asteria 142</h3>
+                            <p class="yacht-price">€ 23,611,815</p>
+                            <div class="yacht-specs">
+                                <div class="spec-item"><i class="icon-length"></i>43m</div>
+                                <div class="spec-item"><i class="icon-year"></i>2023</div>
+                                <div class="spec-item"><i class="icon-engine"></i>13840hp</div>
+                            </div>
+                            <p class="yacht-location">Zhuhai, Chine</p>
+                            <a href="yacht-detail.html" class="yacht-link">Voir les détails →</a>
+                        </div>
+                    </div>
+
+                    <!-- Yacht 3 -->
+                    <div class="yacht-card">
+                        <div class="yacht-image">
+                            <img src="styles/img/Bateauaccueil3.png" alt="2025 Fountaine Pajot Alegria 67">
+                            <div class="yacht-type">Catamaran</div>
+                        </div>
+                        <div class="yacht-details">
+                            <h3 class="yacht-name">2025 Fountaine Pajot Alegria 67</h3>
+                            <p class="yacht-price">€ 484,571</p>
+                            <div class="yacht-specs">
+                                <div class="spec-item"><i class="icon-length"></i>20m</div>
+                                <div class="spec-item"><i class="icon-year"></i>2025</div>
+                                <div class="spec-item"><i class="icon-capacity"></i>8 invités</div>
+                            </div>
+                            <p class="yacht-location">Perpignan, Pyrénées-Orientales (66)</p>
+                            <a href="https://www.yachtworld.fr/yacht/2025-fountaine-pajot-alegria-67-9045933/" class="yacht-link">Voir les détails →</a>
+                        </div>
+                    </div>
+
+                    <!-- Yacht 4 -->
+                    <div class="yacht-card">
+                        <div class="yacht-image">
+                            <img src="styles/img/Bateauaccueil4.png" alt="1982 Cheoy Lee 66 LRC">
+                            <div class="yacht-type">Motoryacht</div>
+                        </div>
+                        <div class="yacht-details">
+                            <h3 class="yacht-name">1982 Cheoy Lee 66 LRC</h3>
+                            <p class="yacht-price">€ 511,002</p>
+                            <div class="yacht-specs">
+                                <div class="spec-item"><i class="icon-length"></i>20m</div>
+                                <div class="spec-item"><i class="icon-year"></i>1982</div>
+                                <div class="spec-item"><i class="icon-engine"></i>440hp</div>
+                            </div>
+                            <p class="yacht-location">Freeport, Bahamas</p>
+                            <a href="https://www.yachtworld.fr/yacht/1982-cheoy-lee-66-lrc-8620422/" class="yacht-link">Voir les détails →</a>
+                        </div>
+                    </div>
+
+                    <!-- Yachts supplémentaires avec différents types -->
+                    <div class="yacht-card">
+                        <div class="yacht-image">
+                            <img src="styles/img/Bateau2arrière.png" alt="2010 Icon 67m">
+                            <div class="yacht-type">Mega Yacht</div>
+                        </div>
+                        <div class="yacht-details">
+                            <h3 class="yacht-name">2010 Icon 67m</h3>
+                            <p class="yacht-price">€ 41,792,889</p>
+                            <div class="yacht-specs">
+                                <div class="spec-item"><i class="icon-length"></i>67.36m</div>
+                                <div class="spec-item"><i class="icon-year"></i>2010</div>
+                                <div class="spec-item"><i class="icon-engine"></i>4960hp</div>
+                            </div>
+                            <p class="yacht-location">Nassau, Bahamas</p>
+                            <a href="yacht-detail2.html" class="yacht-link">Voir les détails →</a>
+                        </div>
+                    </div>
+                   <!-- Yacht Sunseeker Portofino 47 -->
+<div class="yacht-card">
+    <div class="yacht-image">
+        <img src="styles/img/Bateau1arrière.png" alt="2009 Sunseeker Portofino 47">
+        <div class="yacht-type">Motoryacht</div>
+    </div>
+    <div class="yacht-details">
+        <h3 class="yacht-name">2009 Sunseeker Portofino 47</h3>
+        <p class="yacht-price">€ 329,000</p>
+        <div class="yacht-specs">
+            <div class="spec-item"><i class="icon-length"></i>14.95m</div>
+            <div class="spec-item"><i class="icon-year"></i>2009</div>
+            <div class="spec-item"><i class="icon-engine"></i>870hp</div>
+        </div>
+        <p class="yacht-location">Palma de Mallorca, Islas Baleares</p>
+        <a href="yacht-detail3.html" class="yacht-link">Voir les détails →</a>
+    </div>
+</div>
+                    
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#" class="next">Suivant →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Navalfleet</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index.html#apropos">À propos</a></li>
+                        <li><a href="acheter.html">Acheter</a></li>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Vente de Yachts</a></li>
+                        <li><a href="#">Recherche Personnalisée</a></li>
+                        <li><a href="#">Gestion Administrative</a></li>
+                        <li><a href="#">Service Après-Vente</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Nos Yachts</h3>
+                    <ul>
+                        <li><a href="https://www.yachtworld.fr/yacht/2021-tecnomar-63-9659154/">Tecnomar 63</a></li>
+                        <li><a href="https://www.yachtworld.fr/yacht/2023-heysea-asteria-142-9747684/">Heysea Asteria 142</a></li>
+                        <li><a href="https://www.yachtworld.fr/yacht/2025-fountaine-pajot-alegria-67-9045933/">Fountaine Pajot Alegria 67</a></li>
+                        <li><a href="https://www.yachtworld.fr/yacht/1982-cheoy-lee-66-lrc-8620422/">Cheoy Lee 66 LRC</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Légal</h3>
+                    <ul>
+                        <li><a href="#">Conditions Générales</a></li>
+                        <li><a href="#">Politique de Confidentialité</a></li>
+                        <li><a href="#">Mentions Légales</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Navalfleet. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lien vers le fichier JavaScript -->
+    <script src="js/index.js"></script>
+    <script src="js/acheter.js"></script>
+    <script src="js/panier.js"></script>
+</body>
+</html>

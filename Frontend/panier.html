@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votre Panier - Navalfleet</title>
+    <!-- Liens vers les fichiers CSS -->
+    <link rel="stylesheet" href="styles/css/index.css">
+    <link rel="stylesheet" href="styles/css/panier.css">
+    <link rel="stylesheet" href="styles/css/cart-counter.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Naval<span>Fleet</span></div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index.html#apropos">À propos</a></li>
+                        <li><a href="acheter.html">Acheter</a></li>
+                        <li><a href="panier.html" class="active">Panier</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section titre du panier -->
+    <section class="cart-title-section">
+        <div class="container">
+            <h1>Votre Panier</h1>
+        </div>
+    </section>
+
+    <!-- Section panier -->
+    <section class="cart-section">
+        <div class="container">
+            <div class="cart-container">
+                <div class="cart-items">
+                    <h2>Articles dans votre panier (1)</h2>
+                    
+                    <!-- Zone vide panier - sera affichée dynamiquement par JavaScript si le panier est vide -->
+                    <div class="empty-cart" style="display: none;">
+                        <div class="empty-cart-icon">🛥️</div>
+                        <h3>Votre panier est vide</h3>
+                        <p>Découvrez notre sélection de yachts de luxe et trouvez celui qui vous convient.</p>
+                        <a href="acheter.html" class="continue-shopping-btn">Parcourir nos yachts</a>
+                    </div>
+                </div>
+                
+                <!-- Résumé de la commande -->
+                <div class="order-summary">
+                    <h2>Résumé de la commande</h2>
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>Sous-total</span>
+                            <span>90 960 000 €</span>
+                        </div>
+                        
+                        <!-- INSÉRER LA SECTION CODE PROMO ICI -->
+                        <div class="promo-code-section">
+                            <h3>Code promotionnel</h3>
+                            <div class="promo-code-input">
+                                <input type="text" id="promo-code" placeholder="Saisissez votre code promo">
+                                <button id="apply-promo">Appliquer</button>
+                            </div>
+                            <div id="promo-message" class="promo-message"></div>
+                        </div>
+                        
+                        <!-- INSÉRER LA LIGNE DE REMISE ICI -->
+                        <div class="summary-row discount-row" style="display: none;">
+                            <span>Promotion</span>
+                            <span class="discount-amount">- 0 €</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Frais de livraison</span>
+                            <span>Inclus</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Taxes</span>
+                            <span>0 €</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span>90 960 000 €</span>
+                        </div>
+                    
+                    </div>
+                    <button class="checkout-btn">Procéder au paiement</button>
+                    <div class="payment-methods">
+                        <div class="payment-method-title">Méthodes de paiement acceptées</div>
+                        <div class="payment-icons">
+                            <div class="payment-icon visa"></div>
+                            <div class="payment-icon mastercard"></div>
+                            <div class="payment-icon amex"></div>
+                            <div class="payment-icon bank"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Suggestions -->
+            <div class="suggestions">
+                <h2>Vous pourriez aussi aimer</h2>
+                <div class="suggestion-items">
+                    <div class="suggestion-item">
+                        <div class="suggestion-image">
+                            <img src="styles/img/Bateauaccueil1.png" alt="2021 Tecnomar 63">
+                        </div>
+                        <div class="suggestion-details">
+                            <h3>2021 Tecnomar 63</h3>
+                            <div class="suggestion-price">3 790 000 €</div>
+                            <div class="suggestion-specs">
+                                <span>Motoryacht</span> • <span>19m</span>
+                            </div>
+                            <button class="add-suggestion-btn">Ajouter au panier</button>
+                        </div>
+                    </div>
+                    <div class="suggestion-item">
+                        <div class="suggestion-image">
+                            <img src="styles/img/Bateauaccueil3.png" alt="2025 Fountaine Pajot Alegria 67">
+                        </div>
+                        <div class="suggestion-details">
+                            <h3>2025 Fountaine Pajot Alegria 67</h3>
+                            <div class="suggestion-price">484 571 €</div>
+                            <div class="suggestion-specs">
+                                <span>Catamaran</span> • <span>20m</span>
+                            </div>
+                            <button class="add-suggestion-btn">Ajouter au panier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Navalfleet</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index.html#apropos">À propos</a></li>
+                        <li><a href="acheter.html">Acheter</a></li>
+                        <li><a href="panier.html">Panier</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Vente de Yachts</a></li>
+                        <li><a href="#">Recherche Personnalisée</a></li>
+                        <li><a href="#">Gestion Administrative</a></li>
+                        <li><a href="#">Service Après-Vente</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Nos Yachts</h3>
+                    <ul>
+                        <li><a href="yacht-detail.html">Heysea Asteria 142</a></li>
+                        <li><a href="#">Tecnomar 63</a></li>
+                        <li><a href="#">Fountaine Pajot Alegria 67</a></li>
+                        <li><a href="#">Cheoy Lee 66 LRC</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Légal</h3>
+                    <ul>
+                        <li><a href="#">Conditions Générales</a></li>
+                        <li><a href="#">Politique de Confidentialité</a></li>
+                        <li><a href="#">Mentions Légales</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Navalfleet. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lien vers le fichier JavaScript -->
+    <script src="js/index.js"></script>
+    <script src="js/panier.js"></script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+/* Styles spécifiques à la page d'achat */
+
+/* Correction pour le header */
+header {
+    background-color: #0a4b78;
+}
+
+header nav ul li a {
+    color: #fff;
+}
+
+header .logo {
+    color: #fff;
+}
+
+/* Hero de recherche */
+.search-hero {
+    padding: 120px 0 60px;
+    background: linear-gradient(rgba(10, 75, 120, 0.8), rgba(10, 75, 120, 0.8)), url('../../styles/img/Bateauaccueil2.png') center/cover no-repeat;
+    text-align: center;
+    color: #fff;
+}
+
+.search-hero h1 {
+    font-size: 36px;
+    margin-bottom: 30px;
+}
+
+.search-box {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    font-size: 16px;
+}
+
+.search-button {
+    background-color: #d9a82e;
+    color: #fff;
+    border: none;
+    padding: 0 25px;
+    border-radius: 0 5px 5px 0;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #c7971e;
+}
+
+/* Layout principal */
+.yacht-listing-container {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.yacht-listing-container .container {
+    display: flex;
+    gap: 30px;
+}
+
+/* Sidebar de filtres */
+.filters-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    align-self: flex-start;
+    position: sticky;
+    top: 100px;
+}
+
+.filter-section {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.filter-section:last-of-type {
+    border-bottom: none;
+}
+
+.filter-section h3 {
+    font-size: 18px;
+    color: #0a4b78;
+    margin-bottom: 15px;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.filter-option input {
+    margin-right: 10px;
+}
+
+.range-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.range-inputs input {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.apply-range {
+    background-color: #0a4b78;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.reset-filters {
+    width: 100%;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #555;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.reset-filters:hover {
+    background-color: #e5e5e5;
+}
+
+/* Section de résultats */
+.yacht-results {
+    flex: 1;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.results-count {
+    font-weight: bold;
+    color: #333;
+}
+
+.sort-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-options select {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* Grille de yachts */
+.yacht-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.yacht-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.yacht-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.yacht-image {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.yacht-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.yacht-card:hover .yacht-image img {
+    transform: scale(1.05);
+}
+
+.yacht-type {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(10, 75, 120, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.yacht-details {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.yacht-name {
+    font-size: 18px;
+    color: #0a4b78;
+    margin-bottom: 10px;
+}
+
+.yacht-price {
+    font-size: 20px;
+    color: #d9a82e;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.yacht-specs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.spec-item {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    align-items: center;
+}
+
+.yacht-location {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 15px;
+    margin-top: auto;
+}
+
+.yacht-link {
+    display: inline-block;
+    color: #0a4b78;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.yacht-link:hover {
+    color: #d9a82e;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 40px;
+}
+
+.pagination a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    color: #0a4b78;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.pagination a.active {
+    background-color: #0a4b78;
+    color: #fff;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #f1f1f1;
+}
+
+.pagination a.next {
+    width: auto;
+    padding: 0 15px;
+}
+
+/* Responsive */
+@media screen and (max-width: 980px) {
+    .yacht-listing-container .container {
+        flex-direction: column;
+    }
+    
+    .filters-sidebar {
+        width: 100%;
+        position: static;
+        margin-bottom: 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .search-box {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .search-box input {
+        border-radius: 5px;
+    }
+    
+    .search-button {
+        border-radius: 5px;
+        padding: 12px;
+    }
+    
+    .yacht-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .yacht-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .pagination a {
+        width: 35px;
+        height: 35px;
+    }
+}
