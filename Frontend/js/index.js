@@ -1,28 +1,39 @@
-// Fonction pour animer la navigation lors du défilement
+// Script principal pour la page d'accueil
 document.addEventListener('DOMContentLoaded', function() {
     // Animation du header lors du défilement
+    animateHeaderOnScroll();
+    
+    // Navigation douce pour les liens d'ancrage
+    setupSmoothScrolling();
+    
+    // Carrousel pour les témoignages
+    initializeTestimonialSlider();
+    
+    // Gestion du formulaire de contact
+    setupContactForm();
+    
+    // Animation à l'apparition des éléments lors du défilement
+    setupScrollAnimations();
+    
+    // Compteur pour les chiffres clés
+    initializeCounters();
+});
+
+// Fonction pour animer le header lors du défilement
+function animateHeaderOnScroll() {
+    const header = document.querySelector('header');
+    
     window.addEventListener('scroll', function() {
-        const header = document.querySelector('header');
         if (window.scrollY > 50) {
-            header.style.background = '#0a4b78';
-            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
-            header.querySelectorAll('nav a').forEach(link => {
-                link.style.color = '#fff';
-            });
-            document.querySelector('.logo').style.color = '#fff';
-            document.querySelector('.logo span').style.color = '#d9a82e';
+            header.classList.add('scrolled');
         } else {
-            header.style.background = '#fff';
-            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            header.querySelectorAll('nav a').forEach(link => {
-                link.style.color = '#0a4b78';
-            });
-            document.querySelector('.logo').style.color = '#0a4b78';
-            document.querySelector('.logo span').style.color = '#d9a82e';
+            header.classList.remove('scrolled');
         }
     });
+}
 
-    // Navigation douce pour les liens d'ancrage
+// Fonction pour la navigation douce
+function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -32,6 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
+                // Ajouter une classe active au lien cliqué
+                document.querySelectorAll('nav a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Faire défiler jusqu'à l'élément cible
                 window.scrollTo({
                     top: targetElement.offsetTop - 80,
                     behavior: 'smooth'
@@ -39,14 +57,38 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Mise à jour de la navigation active lors du défilement
+    window.addEventListener('scroll', function() {
+        let scrollPosition = window.scrollY + 200;
+        
+        document.querySelectorAll('section[id]').forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                document.querySelectorAll('nav a').forEach(link => {
+                    link.classList.remove('active');
+                    
+                    if (link.getAttribute('href') === '#' + section.getAttribute('id')) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    });
+}
 
-    // Carrousel pour les témoignages
+// Fonction pour initialiser le slider de témoignages
+function initializeTestimonialSlider() {
     const testimonialSlider = {
         currentIndex: 0,
         items: document.querySelectorAll('.testimonial-item'),
         dots: document.querySelectorAll('.navigation-dots .dot'),
         
         init: function() {
+            if (this.items.length === 0) return;
+            
             this.showSlide(this.currentIndex);
             this.setupNavigation();
             this.startAutoSlide();
@@ -63,8 +105,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 dot.classList.remove('active');
             });
             
-            // Afficher le témoignage actif
+            // Afficher le témoignage actif avec animation
+            this.items[index].style.opacity = '0';
             this.items[index].classList.add('active');
+            setTimeout(() => {
+                this.items[index].style.opacity = '1';
+                this.items[index].style.transition = 'opacity 0.5s ease';
+            }, 50);
+            
             this.dots[index].classList.add('active');
             this.currentIndex = index;
         },
@@ -97,8 +145,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('.testimonial-slider')) {
         testimonialSlider.init();
     }
+}
 
-    // Gestion du formulaire de contact
+// Fonction pour gérer le formulaire de contact
+function setupContactForm() {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -108,28 +158,75 @@ document.addEventListener('DOMContentLoaded', function() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
+            const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
             
             // Validation simple
             if (!name || !email || !message) {
-                alert('Veuillez remplir tous les champs obligatoires.');
+                showFormNotification('Veuillez remplir tous les champs obligatoires.', 'error');
                 return;
             }
             
-            // Simuler l'envoi du formulaire
-            alert('Merci pour votre message ! Nous vous contacterons bientôt.');
-            contactForm.reset();
+            // Validation de l'email
+            if (!isValidEmail(email)) {
+                showFormNotification('Veuillez entrer une adresse e-mail valide.', 'error');
+                return;
+            }
+            
+            // Simuler l'envoi du formulaire avec une animation
+            const submitButton = contactForm.querySelector('.submit-button');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Envoi en cours...';
+            submitButton.disabled = true;
+            
+            setTimeout(() => {
+                showFormNotification('Merci pour votre message ! Nous vous contacterons bientôt.', 'success');
+                contactForm.reset();
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }, 1500);
         });
     }
+}
 
-    // Animation à l'apparition des éléments lors du défilement
-    const elementsToAnimate = document.querySelectorAll('.about-content, .yacht-card, .service-card');
+// Fonction pour afficher une notification
+function showFormNotification(message, type) {
+    // Vérifier si une notification existe déjà
+    let notification = document.querySelector('.form-notification');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.className = 'form-notification';
+        document.getElementById('contact-form').appendChild(notification);
+    }
+    
+    notification.textContent = message;
+    notification.className = 'form-notification ' + type;
+    notification.style.display = 'block';
+    
+    // Faire disparaître la notification après 5 secondes
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 500);
+    }, 5000);
+}
+
+// Fonction pour valider un email
+function isValidEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+// Fonction pour animer les éléments au scroll
+function setupScrollAnimations() {
+    const elementsToAnimate = document.querySelectorAll('.about-content, .yacht-card, .service-card, .contact-card, .testimonial-slider, .key-figures, .cta-content');
     
     // Fonction pour vérifier si un élément est visible
     function isElementInViewport(el) {
         const rect = el.getBoundingClientRect();
         return (
-            rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
             rect.bottom >= 0
         );
     }
@@ -155,4 +252,59 @@ document.addEventListener('DOMContentLoaded', function() {
     // Vérifier les éléments au chargement et au défilement
     window.addEventListener('load', handleScrollAnimation);
     window.addEventListener('scroll', handleScrollAnimation);
-});
+}
+
+// Fonction pour initialiser les compteurs dans la section chiffres clés
+function initializeCounters() {
+    const counters = document.querySelectorAll('.figure-number');
+    
+    function startCounting(counter) {
+        const target = parseInt(counter.textContent);
+        const duration = 2000; // durée en ms
+        const startTime = Date.now();
+        
+        function updateCounter() {
+            const currentTime = Date.now();
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            
+            let text = counter.textContent;
+            const isPlus = text.includes('+');
+            text = text.replace('+', '');
+            
+            const value = Math.floor(progress * parseInt(text));
+            counter.textContent = isPlus ? value + '+' : value;
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target + (isPlus ? '+' : '');
+            }
+        }
+        
+        updateCounter();
+    }
+    
+    function handleCounterAnimation() {
+        counters.forEach(counter => {
+            if (isInViewport(counter) && !counter.classList.contains('counted')) {
+                counter.classList.add('counted');
+                setTimeout(() => {
+                    startCounting(counter);
+                }, 200);
+            }
+        });
+    }
+    
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+            rect.bottom >= 0
+        );
+    }
+    
+    // Événement de défilement
+    window.addEventListener('scroll', handleCounterAnimation);
+    // Vérification initiale
+    handleCounterAnimation();
+}

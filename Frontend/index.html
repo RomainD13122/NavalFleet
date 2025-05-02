@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Navalfleet - Expert en yachts de luxe et bateaux haut de gamme. Découvrez notre sélection exceptionnelle de yachts à vendre.">
     <title>Navalfleet - Votre Expert en Yachts de Luxe</title>
     <!-- Lien vers le fichier CSS externe -->
     <link rel="stylesheet" href="styles/css/index.css">
     <link rel="stylesheet" href="styles/css/cart-counter.css">
+    <!-- Ajout d'une police Google Fonts plus élégante -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
@@ -16,10 +21,10 @@
                 <div class="logo">Naval<span>Fleet</span></div>
                 <nav>
                     <ul>
-                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#accueil" class="active">Accueil</a></li>
                         <li><a href="#apropos">À propos</a></li>
                         <li><a href="acheter.html">Acheter</a></li>
-                        <li><a href="#services">Services</a></li>
+                        <li><a href="panier.html">Panier</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </nav>
@@ -27,51 +32,97 @@
         </div>
     </header>
     
-    <!-- Section Hero -->
+    <!-- Section Hero avec overlay amélioré et call-to-action plus visible -->
     <section class="hero" id="accueil">
+        <div class="hero-overlay"></div>
         <div class="container">
             <div class="hero-content">
-                <h1>Découvrez l'Excellence Navale</h1>
-                <p>Navalfleet vous propose une sélection exceptionnelle de yachts de luxe pour réaliser vos rêves maritimes.</p>
-                <a href="#yachts" class="cta-button">Explorer notre flotte</a>
+                <h1>L'Excellence Navale à Votre Portée</h1>
+                <p>Navalfleet vous propose une sélection exceptionnelle de yachts de luxe pour réaliser vos rêves maritimes. Notre expertise vous garantit une expérience d'achat unique.</p>
+                <div class="hero-buttons">
+                    <a href="acheter.html" class="cta-button primary">Explorer notre flotte</a>
+                    <a href="#contact" class="cta-button secondary">Nous contacter</a>
+                </div>
             </div>
         </div>
     </section>
     
-    <!-- Section À propos -->
+    <!-- Section chiffres clés -->
+    <section class="key-figures">
+        <div class="container">
+            <div class="figures-grid">
+                <div class="figure-item">
+                    <div class="figure-number">15+</div>
+                    <div class="figure-text">Années d'expérience</div>
+                </div>
+                <div class="figure-item">
+                    <div class="figure-number">120+</div>
+                    <div class="figure-text">Yachts vendus</div>
+                </div>
+                <div class="figure-item">
+                    <div class="figure-number">98%</div>
+                    <div class="figure-text">Clients satisfaits</div>
+                </div>
+                <div class="figure-item">
+                    <div class="figure-number">12</div>
+                    <div class="figure-text">Partenaires internationaux</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section À propos améliorée -->
     <section class="about" id="apropos">
         <div class="container">
             <h2 class="section-title">À Propos de Navalfleet</h2>
             <div class="about-content">
                 <div class="about-image">
                     <img src="styles/img/Bateauaccueil4.png" alt="1982 Cheoy Lee 66 LRC">
+                    <div class="experience-badge">15 ans d'excellence</div>
                 </div>
                 <div class="about-text">
+                    <h3>Votre partenaire de confiance dans l'univers du yachting</h3>
                     <p>Fondée par des passionnés de la mer, Navalfleet est devenue une référence dans le monde du yachting de luxe. Notre expertise et notre engagement envers l'excellence nous permettent de vous offrir les plus beaux yachts du marché.</p>
                     <p>Que vous soyez à la recherche d'un yacht pour des croisières privées, des événements d'entreprise ou un investissement, notre équipe vous accompagne dans toutes les étapes de votre projet nautique.</p>
                     <p>Avec plus de 15 ans d'expérience et une connaissance approfondie du marché international, nous sommes fiers de notre capacité à répondre aux attentes les plus exigeantes de notre clientèle.</p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <div class="feature-icon">🌍</div>
+                            <div class="feature-text">Présence internationale</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🔍</div>
+                            <div class="feature-text">Sélection rigoureuse</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🤝</div>
+                            <div class="feature-text">Service personnalisé</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     
-    <!-- Section Yachts en vedette -->
+    <!-- Section Yachts en vedette avec design amélioré -->
     <section class="featured-yachts" id="yachts">
         <div class="container">
             <h2 class="section-title">Yachts à Vendre</h2>
+            <p class="section-subtitle">Découvrez notre sélection de yachts d'exception</p>
             <div class="yacht-grid">
                 <!-- Yacht 1 -->
                 <div class="yacht-card">
                     <div class="yacht-image">
                         <img src="styles/img/Bateauaccueil1.png" alt="2021 Tecnomar 63">
+                        <div class="yacht-tag">Nouveauté</div>
                     </div>
                     <div class="yacht-details">
                         <h3 class="yacht-name">2021 Tecnomar 63</h3>
                         <p class="yacht-price">€ 3,790,000 Hors Taxes</p>
                         <div class="yacht-specs">
-                            <div class="spec-item">19m</div>
-                            <div class="spec-item">2021</div>
-                            <div class="spec-item">3999hp</div>
+                            <div class="spec-item"><span class="spec-icon">📏</span> 19m</div>
+                            <div class="spec-item"><span class="spec-icon">📅</span> 2021</div>
+                            <div class="spec-item"><span class="spec-icon">⚙️</span> 3999hp</div>
                         </div>
                         <a href="yacht-detail4.html" class="yacht-link">Voir les détails →</a>
                     </div>
@@ -81,14 +132,15 @@
                 <div class="yacht-card">
                     <div class="yacht-image">
                         <img src="styles/img/Bateauaccueil2.png" alt="2023 Heysea Asteria 142">
+                        <div class="yacht-tag">Premium</div>
                     </div>
                     <div class="yacht-details">
                         <h3 class="yacht-name">2023 Heysea Asteria 142</h3>
                         <p class="yacht-price">€ 23,611,815</p>
                         <div class="yacht-specs">
-                            <div class="spec-item">43m</div>
-                            <div class="spec-item">2023</div>
-                            <div class="spec-item">Mega Yacht</div>
+                            <div class="spec-item"><span class="spec-icon">📏</span> 43m</div>
+                            <div class="spec-item"><span class="spec-icon">📅</span> 2023</div>
+                            <div class="spec-item"><span class="spec-icon">🛥️</span> Mega Yacht</div>
                         </div>
                         <a href="yacht-detail.html" class="yacht-link">Voir les détails →</a>
                     </div>
@@ -98,32 +150,38 @@
                 <div class="yacht-card">
                     <div class="yacht-image">
                         <img src="styles/img/Bateauaccueil3.png" alt="2025 Fountaine Pajot Alegria 67">
+                        <div class="yacht-tag">À venir</div>
                     </div>
                     <div class="yacht-details">
                         <h3 class="yacht-name">2025 Fountaine Pajot Alegria 67</h3>
                         <p class="yacht-price">€ 484,571</p>
                         <div class="yacht-specs">
-                            <div class="spec-item">20m</div>
-                            <div class="spec-item">2025</div>
-                            <div class="spec-item">Catamaran</div>
+                            <div class="spec-item"><span class="spec-icon">📏</span> 20m</div>
+                            <div class="spec-item"><span class="spec-icon">📅</span> 2025</div>
+                            <div class="spec-item"><span class="spec-icon">🛥️</span> Catamaran</div>
                         </div>
                         <a href="https://www.yachtworld.fr/yacht/2025-fountaine-pajot-alegria-67-9045933/" class="yacht-link">Voir les détails →</a>
                     </div>
                 </div>
             </div>
+            <div class="view-all-container">
+                <a href="acheter.html" class="view-all-btn">Voir tous nos yachts</a>
+            </div>
         </div>
     </section>
     
-    <!-- Section Services -->
+    <!-- Section Services modernisée -->
     <section class="services" id="services">
         <div class="container">
             <h2 class="section-title">Nos Services</h2>
+            <p class="section-subtitle">Une expertise complète pour votre projet nautique</p>
             <div class="services-grid">
                 <!-- Service 1 -->
                 <div class="service-card">
                     <div class="service-icon">🛥️</div>
                     <h3 class="service-title">Vente de Yachts</h3>
                     <p>Une sélection rigoureuse des meilleurs yachts disponibles sur le marché, neufs ou d'occasion.</p>
+                    <a href="#contact" class="service-link">En savoir plus</a>
                 </div>
                 
                 <!-- Service 2 -->
@@ -131,6 +189,7 @@
                     <div class="service-icon">🔍</div>
                     <h3 class="service-title">Recherche Personnalisée</h3>
                     <p>Un service sur mesure pour trouver le yacht qui correspond parfaitement à vos exigences.</p>
+                    <a href="#contact" class="service-link">En savoir plus</a>
                 </div>
                 
                 <!-- Service 3 -->
@@ -138,6 +197,7 @@
                     <div class="service-icon">📝</div>
                     <h3 class="service-title">Gestion Administrative</h3>
                     <p>Nous nous occupons de toutes les formalités administratives liées à l'achat et à l'exploitation de votre yacht.</p>
+                    <a href="#contact" class="service-link">En savoir plus</a>
                 </div>
                 
                 <!-- Service 4 -->
@@ -145,40 +205,115 @@
                     <div class="service-icon">⚓</div>
                     <h3 class="service-title">Service Après-Vente</h3>
                     <p>Une assistance technique et logistique disponible à tout moment pour garantir votre tranquillité.</p>
+                    <a href="#contact" class="service-link">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section témoignages (nouvelle) -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Ce Que Disent Nos Clients</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial-item active">
+                    <div class="testimonial-text">"L'équipe de Navalfleet a été exceptionnelle tout au long du processus d'achat de mon yacht. Leur expertise et leur professionnalisme ont rendu cette acquisition complexe simple et agréable."</div>
+                    <div class="client-info">
+                        <div class="client-name">Jean Dupont</div>
+                        <div class="client-position">Propriétaire d'un Tecnomar 63</div>
+                    </div>
+                </div>
+                <div class="testimonial-item">
+                    <div class="testimonial-text">"Je recommande vivement Navalfleet pour leur service personnalisé et leur connaissance approfondie du marché. Ils ont trouvé exactement ce que je cherchais."</div>
+                    <div class="client-info">
+                        <div class="client-name">Sophie Martin</div>
+                        <div class="client-position">Propriétaire d'un Heysea Asteria 142</div>
+                    </div>
+                </div>
+                <div class="testimonial-item">
+                    <div class="testimonial-text">"Le service après-vente de Navalfleet est tout simplement remarquable. Disponibles et réactifs, ils assurent un suivi impeccable."</div>
+                    <div class="client-info">
+                        <div class="client-name">Pierre Lefebvre</div>
+                        <div class="client-position">Propriétaire d'un Fountaine Pajot Alegria 67</div>
+                    </div>
+                </div>
+                <div class="navigation-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
                 </div>
             </div>
         </div>
     </section>
     
-    <!-- Section Contact -->
+    <!-- Section appel à l'action avant contact -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Prêt à réaliser votre rêve nautique ?</h2>
+                <p>Contactez nos experts dès aujourd'hui pour découvrir comment nous pouvons vous aider à trouver le yacht parfait.</p>
+                <a href="#contact" class="cta-button primary">Nous contacter</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section Contact améliorée -->
     <section class="contact" id="contact">
         <div class="container">
             <h2 class="section-title">Contactez-Nous</h2>
             <div class="contact-content">
                 <div class="contact-info">
-                    <h3>Nos Coordonnées</h3>
-                    <p>22 Avenue de la Marina</p>
-                    <p>06600 Antibes, France</p>
-                    <p>Téléphone: +33 4 93 XX XX XX</p>
-                    <p>Email: info@navalfleet.com</p>
-                    <h3>Heures d'Ouverture</h3>
-                    <p>Lundi - Vendredi: 9h - 18h</p>
-                    <p>Samedi: 10h - 16h</p>
-                    <p>Dimanche: Sur rendez-vous</p>
+                    <div class="contact-card">
+                        <h3>Nos Coordonnées</h3>
+                        <p><span class="contact-icon">📍</span> 22 Avenue de la Marina</p>
+                        <p>06600 Antibes, France</p>
+                        <p><span class="contact-icon">📞</span> +33 4 93 XX XX XX</p>
+                        <p><span class="contact-icon">✉️</span> info@navalfleet.com</p>
+                    </div>
+                    <div class="contact-card">
+                        <h3>Heures d'Ouverture</h3>
+                        <p><span class="day">Lundi - Vendredi:</span> 9h - 18h</p>
+                        <p><span class="day">Samedi:</span> 10h - 16h</p>
+                        <p><span class="day">Dimanche:</span> Sur rendez-vous</p>
+                    </div>
+                    <div class="social-media">
+                        <h3>Suivez-nous</h3>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon">FB</a>
+                            <a href="#" class="social-icon">IG</a>
+                            <a href="#" class="social-icon">LI</a>
+                            <a href="#" class="social-icon">YT</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="contact-form">
                     <form id="contact-form">
-                        <div class="form-group">
-                            <label for="name">Nom</label>
-                            <input type="text" id="name" required>
+                        <div class="form-header">
+                            <h3>Envoyez-nous un message</h3>
+                            <p>Notre équipe vous répondra dans les plus brefs délais</p>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" required>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Nom</label>
+                                <input type="text" id="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" required>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="phone">Téléphone</label>
                             <input type="tel" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Sujet</label>
+                            <select id="subject">
+                                <option value="information">Demande d'information</option>
+                                <option value="visite">Organiser une visite</option>
+                                <option value="vente">Vendre mon yacht</option>
+                                <option value="autre">Autre</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="message">Message</label>
@@ -190,34 +325,54 @@
             </div>
         </div>
     </section>
+
+    <!-- Section carte (nouvelle) -->
+    <section class="map-section">
+        <div class="map-container">
+            <!-- Ici, vous pouvez intégrer une carte Google Maps ou une image statique -->
+            <div class="map-placeholder">
+                <img src="styles/img/map-placeholder.jpg" alt="Carte de localisation">
+            </div>
+        </div>
+    </section>
     
-    <!-- Footer -->
+    <!-- Footer amélioré -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>Navalfleet</h3>
+                    <div class="footer-logo">Naval<span>Fleet</span></div>
+                    <p class="footer-tagline">L'excellence navale à votre portée</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link">FB</a>
+                        <a href="#" class="social-link">IG</a>
+                        <a href="#" class="social-link">LI</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Navigation</h3>
                     <ul>
+                        <li><a href="#accueil">Accueil</a></li>
                         <li><a href="#apropos">À propos</a></li>
-                        <li><a href="#yachts">Acheter</a></li>
-                        <li><a href="#services">Nos Services</a></li>
+                        <li><a href="acheter.html">Acheter</a></li>
+                        <li><a href="panier.html">Panier</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3>Services</h3>
+                    <h3>Nos Services</h3>
                     <ul>
-                        <li><a href="#">Vente de Yachts</a></li>
-                        <li><a href="#">Recherche Personnalisée</a></li>
-                        <li><a href="#">Gestion Administrative</a></li>
-                        <li><a href="#">Service Après-Vente</a></li>
+                        <li><a href="#services">Vente de Yachts</a></li>
+                        <li><a href="#services">Recherche Personnalisée</a></li>
+                        <li><a href="#services">Gestion Administrative</a></li>
+                        <li><a href="#services">Service Après-Vente</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Nos Yachts</h3>
                     <ul>
-                        <li><a href="https://www.yachtworld.fr/yacht/2021-tecnomar-63-9659154/">Tecnomar 63</a></li>
-                        <li><a href="https://www.yachtworld.fr/yacht/2023-heysea-asteria-142-9747684/">Heysea Asteria 142</a></li>
+                        <li><a href="yacht-detail4.html">Tecnomar 63</a></li>
+                        <li><a href="yacht-detail.html">Heysea Asteria 142</a></li>
                         <li><a href="https://www.yachtworld.fr/yacht/2025-fountaine-pajot-alegria-67-9045933/">Fountaine Pajot Alegria 67</a></li>
                         <li><a href="https://www.yachtworld.fr/yacht/1982-cheoy-lee-66-lrc-8620422/">Cheoy Lee 66 LRC</a></li>
                     </ul>
@@ -231,8 +386,14 @@
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; 2025 Navalfleet. Tous droits réservés.
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2025 Navalfleet. Tous droits réservés.
+                </div>
+                <div class="footer-links">
+                    <a href="#">Politique de cookies</a>
+                    <a href="#">Plan du site</a>
+                </div>
             </div>
         </div>
     </footer>
