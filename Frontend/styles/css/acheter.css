@@ -1,18 +1,46 @@
 /* ==========================================================================
+   VARIABLES
+   ========================================================================== */
+   :root {
+    --color-primary: #0a4b78;
+    --color-primary-light: #1a6ea8;
+    --color-primary-dark: #083a5e;
+    --color-accent: #d9a82e;
+    --color-accent-light: #e5b94f;
+    --color-accent-dark: #c7971e;
+    --color-text: #333;
+    --color-text-light: #666;
+    --color-text-lighter: #999;
+    --color-bg: #f9f9f9;
+    --color-white: #fff;
+    --color-border: #eee;
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.15);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition: all 0.3s ease;
+    --container-width: 90%;
+    --container-max: 1200px;
+    --sidebar-width: 280px;
+}
+
+/* ==========================================================================
    ACHETER PAGE STYLES
    ========================================================================== */
 
 /* Header override for acheter page */
 header {
-    background-color: #0a4b78;
+    background-color: var(--color-primary);
 }
 
 header nav ul li a {
-    color: #fff;
+    color: var(--color-white);
 }
 
 header .logo {
-    color: #fff;
+    color: var(--color-white);
 }
 
 /* ==========================================================================
@@ -23,41 +51,53 @@ header .logo {
     background: linear-gradient(rgba(10, 75, 120, 0.8), rgba(10, 75, 120, 0.8)), 
                 url('../../styles/img/Bateauaccueil2.png') center/cover no-repeat;
     text-align: center;
-    color: #fff;
+    color: var(--color-white);
 }
 
 .search-hero h1 {
     font-size: 36px;
     margin-bottom: 30px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .search-box {
     max-width: 700px;
     margin: 0 auto;
     display: flex;
+    position: relative;
 }
 
 .search-box input {
     flex: 1;
-    padding: 15px;
+    padding: 15px 20px;
     border: none;
-    border-radius: 5px 0 0 5px;
+    border-radius: var(--radius-md);
     font-size: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .search-button {
-    background-color: #d9a82e;
-    color: #fff;
-    border: none;
     padding: 0 25px;
-    border-radius: 0 5px 5px 0;
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: var(--transition);
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }
 
 .search-button:hover {
-    background-color: #c7971e;
+    background-color: var(--color-accent-dark);
+}
+
+.search-button i {
+    margin-right: 5px;
 }
 
 /* ==========================================================================
@@ -65,10 +105,75 @@ header .logo {
    ========================================================================== */
 .yacht-listing-container {
     padding: 60px 0;
-    background-color: #f9f9f9;
+    background-color: var(--color-bg);
 }
 
-.yacht-listing-container .container {
+.listing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.listing-stats {
+    font-size: 16px;
+    color: var(--color-text-light);
+}
+
+.listing-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.action-button {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    padding: 8px 15px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.action-button i {
+    margin-right: 5px;
+}
+
+.action-button:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.view-options {
+    display: flex;
+    gap: 5px;
+}
+
+.view-option {
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.view-option:hover,
+.view-option.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.filters-results-container {
     display: flex;
     gap: 30px;
 }
@@ -77,20 +182,38 @@ header .logo {
    FILTERS SIDEBAR
    ========================================================================== */
 .filters-sidebar {
-    width: 280px;
+    width: var(--sidebar-width);
     flex-shrink: 0;
-    background-color: #fff;
-    border-radius: 8px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
     padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-md);
     align-self: flex-start;
     position: sticky;
     top: 100px;
+    transition: var(--transition);
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+.filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.filters-header h2 {
+    font-size: 18px;
+    color: var(--color-primary);
+    margin: 0;
 }
 
 .filter-section {
     margin-bottom: 25px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 20px;
 }
 
@@ -99,9 +222,10 @@ header .logo {
 }
 
 .filter-section h3 {
-    font-size: 18px;
-    color: #0a4b78;
+    font-size: 16px;
+    color: var(--color-primary);
     margin-bottom: 15px;
+    font-weight: 600;
 }
 
 .filter-options {
@@ -114,16 +238,93 @@ header .logo {
     display: flex;
     align-items: center;
     cursor: pointer;
+    padding: 5px 0;
+    transition: var(--transition);
+}
+
+.filter-option:hover {
+    color: var(--color-primary);
 }
 
 .filter-option input {
     margin-right: 10px;
+    cursor: pointer;
+}
+
+.option-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--color-text-lighter);
+    background-color: var(--color-bg);
+    padding: 2px 6px;
+    border-radius: 10px;
 }
 
 .range-filter {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
+}
+
+.range-slider {
+    position: relative;
+    padding: 10px 0;
+}
+
+.range-values {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+}
+
+.slider-container {
+    position: relative;
+    height: 5px;
+    margin: 20px 0;
+}
+
+.range-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: none;
+    -webkit-appearance: none;
+    pointer-events: none;
+}
+
+.range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    cursor: pointer;
+    pointer-events: auto;
+    margin-top: -6px;
+}
+
+.range-input::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    cursor: pointer;
+    pointer-events: auto;
+    border: none;
+}
+
+.slider-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background-color: #ddd;
+    border-radius: 3px;
 }
 
 .range-inputs {
@@ -136,39 +337,68 @@ header .logo {
 .range-inputs input {
     width: 80px;
     padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
 }
 
 .apply-range {
-    background-color: #0a4b78;
-    color: #fff;
+    background-color: var(--color-primary);
+    color: var(--color-white);
     border: none;
     padding: 8px 15px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s;
+    transition: var(--transition);
+    align-self: flex-start;
 }
 
 .apply-range:hover {
-    background-color: #083a5e;
+    background-color: var(--color-primary-dark);
 }
 
 .reset-filters {
     width: 100%;
-    background-color: #f1f1f1;
-    border: 1px solid #ddd;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-text-lighter);
     padding: 10px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    color: #555;
-    font-weight: bold;
-    transition: all 0.3s;
+    color: var(--color-text);
+    font-weight: 500;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
 }
 
 .reset-filters:hover {
-    background-color: #e5e5e5;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-tag {
+    background-color: var(--color-primary-light);
+    color: var(--color-white);
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-tag i {
+    cursor: pointer;
 }
 
 /* ==========================================================================
@@ -183,11 +413,15 @@ header .logo {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    padding: 15px 20px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
 }
 
 .results-count {
-    font-weight: bold;
-    color: #333;
+    font-weight: 600;
+    color: var(--color-text);
 }
 
 .sort-options {
@@ -196,16 +430,20 @@ header .logo {
     gap: 10px;
 }
 
-.sort-options select {
-    padding: 8px 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
+.sort-options label {
+    font-size: 14px;
+    color: var(--color-text-light);
 }
 
-/* ==========================================================================
-   YACHT CARD STYLES
-   ========================================================================== */
+.sort-options select {
+    padding: 8px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    font-size: 14px;
+}
+
+/* Grid View */
 .yacht-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -213,24 +451,77 @@ header .logo {
     margin-bottom: 40px;
 }
 
+/* List View */
+.yacht-grid.list-view {
+    grid-template-columns: 1fr;
+}
+
+.yacht-grid.list-view .yacht-card {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+}
+
+.yacht-grid.list-view .yacht-image {
+    width: 300px;
+    height: 220px;
+    flex-shrink: 0;
+}
+
+.yacht-grid.list-view .yacht-details {
+    display: grid;
+    grid-template-columns: 1fr 150px;
+    grid-template-rows: auto auto 1fr;
+    gap: 10px 20px;
+    padding: 20px;
+}
+
+.yacht-grid.list-view .yacht-name,
+.yacht-grid.list-view .yacht-price {
+    grid-column: 1;
+}
+
+.yacht-grid.list-view .yacht-specs {
+    grid-row: 2;
+    grid-column: 1;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.yacht-grid.list-view .yacht-location {
+    grid-row: 3;
+    grid-column: 1;
+}
+
+.yacht-grid.list-view .yacht-actions {
+    grid-row: 1 / span 3;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Yacht Card */
 .yacht-card {
-    background-color: #fff;
-    border-radius: 8px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .yacht-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
 }
 
 .yacht-image {
-    height: 200px;
+    height: 220px;
     overflow: hidden;
     position: relative;
 }
@@ -251,11 +542,25 @@ header .logo {
     top: 10px;
     right: 10px;
     background-color: rgba(10, 75, 120, 0.8);
-    color: #fff;
+    color: var(--color-white);
     padding: 5px 10px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 600;
+    z-index: 1;
+}
+
+.yacht-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 1;
 }
 
 .yacht-details {
@@ -267,13 +572,14 @@ header .logo {
 
 .yacht-name {
     font-size: 18px;
-    color: #0a4b78;
+    color: var(--color-primary);
     margin-bottom: 10px;
+    font-weight: 600;
 }
 
 .yacht-price {
     font-size: 20px;
-    color: #d9a82e;
+    color: var(--color-accent);
     font-weight: bold;
     margin-bottom: 15px;
 }
@@ -287,28 +593,102 @@ header .logo {
 
 .spec-item {
     font-size: 14px;
-    color: #666;
+    color: var(--color-text-light);
     display: flex;
     align-items: center;
+    gap: 5px;
+}
+
+.spec-item i {
+    color: var(--color-primary);
 }
 
 .yacht-location {
     font-size: 14px;
-    color: #777;
+    color: var(--color-text-light);
     margin-bottom: 15px;
     margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.yacht-location i {
+    color: var(--color-primary);
+}
+
+.yacht-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .yacht-link {
+    flex: 1;
     display: inline-block;
-    color: #0a4b78;
-    font-weight: bold;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 8px 15px;
+    border-radius: var(--radius-sm);
     text-decoration: none;
-    transition: color 0.3s;
+    font-weight: 500;
+    text-align: center;
+    transition: var(--transition);
+    font-size: 14px;
 }
 
 .yacht-link:hover {
-    color: #d9a82e;
+    background-color: var(--color-primary-dark);
+}
+
+.add-to-wishlist,
+.quick-view {
+    width: 36px;
+    height: 36px;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.add-to-wishlist:hover,
+.quick-view:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+/* No Results Message */
+.no-results {
+    text-align: center;
+    padding: 60px 0;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.no-results-icon {
+    font-size: 48px;
+    color: var(--color-text-lighter);
+    margin-bottom: 20px;
+}
+
+.no-results h3 {
+    font-size: 24px;
+    color: var(--color-primary);
+    margin-bottom: 15px;
+}
+
+.no-results p {
+    color: var(--color-text-light);
+    margin-bottom: 25px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ==========================================================================
@@ -321,27 +701,29 @@ header .logo {
     margin-top: 40px;
 }
 
-.pagination a {
+.pagination a,
+.pagination-separator {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: #fff;
-    color: #0a4b78;
-    border-radius: 5px;
+    background-color: var(--color-white);
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
     text-decoration: none;
-    transition: all 0.3s;
-    font-weight: bold;
+    transition: var(--transition);
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
 }
 
 .pagination a.active {
-    background-color: #0a4b78;
-    color: #fff;
+    background-color: var(--color-primary);
+    color: var(--color-white);
 }
 
 .pagination a:hover:not(.active) {
-    background-color: #f1f1f1;
+    background-color: var(--color-bg);
 }
 
 .pagination a.next {
@@ -350,10 +732,60 @@ header .logo {
 }
 
 /* ==========================================================================
+   MODAL
+   ========================================================================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    overflow: auto;
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--color-white);
+    margin: 5% auto;
+    width: 90%;
+    max-width: 800px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    animation: modalOpen 0.3s;
+}
+
+@keyframes modalOpen {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
+    color: var(--color-text-light);
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.close-modal:hover {
+    color: var(--color-primary);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+/* ==========================================================================
    RESPONSIVE STYLES
    ========================================================================== */
-@media screen and (max-width: 980px) {
-    .yacht-listing-container .container {
+@media screen and (max-width: 1024px) {
+    .filters-results-container {
         flex-direction: column;
     }
     
@@ -361,26 +793,48 @@ header .logo {
         width: 100%;
         position: static;
         margin-bottom: 30px;
+        max-height: none;
+        overflow: visible;
+    }
+    
+    .yacht-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
 }
 
 @media screen and (max-width: 768px) {
     .search-box {
         flex-direction: column;
-        gap: 10px;
     }
     
     .search-box input {
-        border-radius: 5px;
+        border-radius: var(--radius-sm);
     }
     
     .search-button {
-        border-radius: 5px;
+        position: static;
+        border-radius: var(--radius-sm);
+        margin-top: 10px;
         padding: 12px;
     }
     
-    .yacht-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    .results-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .yacht-grid.list-view .yacht-card {
+        flex-direction: column;
+    }
+    
+    .yacht-grid.list-view .yacht-image {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .yacht-grid.list-view .yacht-details {
+        display: flex;
+        flex-direction: column;
     }
 }
 
@@ -389,8 +843,40 @@ header .logo {
         grid-template-columns: 1fr;
     }
     
-    .pagination a {
+    .listing-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .listing-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .pagination a, 
+    .pagination-separator {
         width: 35px;
         height: 35px;
     }
+}
+
+/* ==========================================================================
+   UTILITIES
+   ========================================================================== */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }

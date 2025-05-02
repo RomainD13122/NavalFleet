@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Votre panier d'achat de yachts de luxe - Navalfleet">
     <title>Votre Panier - Navalfleet</title>
     <!-- Liens vers les fichiers CSS -->
     <link rel="stylesheet" href="styles/css/index.css">
     <link rel="stylesheet" href="styles/css/panier.css">
     <link rel="stylesheet" href="styles/css/cart-counter.css">
+    <!-- Ajout de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ajout de Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
@@ -32,6 +39,23 @@
     <section class="cart-title-section">
         <div class="container">
             <h1>Votre Panier</h1>
+            <p class="cart-subtitle">Retrouvez tous les yachts que vous avez sélectionnés</p>
+            <div class="cart-steps">
+                <div class="step active">
+                    <div class="step-number"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="step-name">Panier</div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number"><i class="fas fa-credit-card"></i></div>
+                    <div class="step-name">Paiement</div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number"><i class="fas fa-check"></i></div>
+                    <div class="step-name">Confirmation</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -40,14 +64,22 @@
         <div class="container">
             <div class="cart-container">
                 <div class="cart-items">
-                    <h2>Articles dans votre panier (1)</h2>
+                    <div class="cart-header">
+                        <h2>Articles dans votre panier (<span id="cart-count">0</span>)</h2>
+                        <button class="clear-cart-btn" id="clear-cart">Vider le panier</button>
+                    </div>
                     
                     <!-- Zone vide panier - sera affichée dynamiquement par JavaScript si le panier est vide -->
-                    <div class="empty-cart" style="display: none;">
-                        <div class="empty-cart-icon">🛥️</div>
+                    <div class="empty-cart" id="empty-cart">
+                        <div class="empty-cart-icon"><i class="fas fa-ship"></i></div>
                         <h3>Votre panier est vide</h3>
                         <p>Découvrez notre sélection de yachts de luxe et trouvez celui qui vous convient.</p>
-                        <a href="acheter.html" class="continue-shopping-btn">Parcourir nos yachts</a>
+                        <a href="acheter.html" class="continue-shopping-btn">Explorer nos yachts</a>
+                    </div>
+
+                    <!-- Liste des éléments du panier - générée dynamiquement par JavaScript -->
+                    <div id="cart-items-container">
+                        <!-- Les articles du panier seront insérés ici par JavaScript -->
                     </div>
                 </div>
                 
@@ -57,10 +89,10 @@
                     <div class="summary-details">
                         <div class="summary-row">
                             <span>Sous-total</span>
-                            <span>90 960 000 €</span>
+                            <span id="subtotal-price">0 €</span>
                         </div>
                         
-                        <!-- INSÉRER LA SECTION CODE PROMO ICI -->
+                        <!-- Section code promo -->
                         <div class="promo-code-section">
                             <h3>Code promotionnel</h3>
                             <div class="promo-code-input">
@@ -70,35 +102,46 @@
                             <div id="promo-message" class="promo-message"></div>
                         </div>
                         
-                        <!-- INSÉRER LA LIGNE DE REMISE ICI -->
-                        <div class="summary-row discount-row" style="display: none;">
+                        <!-- Ligne de remise -->
+                        <div class="summary-row discount-row" id="discount-row">
                             <span>Promotion</span>
-                            <span class="discount-amount">- 0 €</span>
+                            <span class="discount-amount" id="discount-amount">- 0 €</span>
                         </div>
                         
                         <div class="summary-row">
                             <span>Frais de livraison</span>
-                            <span>Inclus</span>
+                            <span id="shipping-cost">Inclus</span>
                         </div>
+
                         <div class="summary-row">
                             <span>Taxes</span>
-                            <span>0 €</span>
+                            <span id="tax-amount">0 €</span>
                         </div>
+
                         <div class="summary-row total">
                             <span>Total</span>
-                            <span>90 960 000 €</span>
+                            <span id="total-price">0 €</span>
                         </div>
-                    
                     </div>
-                    <button class="checkout-btn">Procéder au paiement</button>
-                    <div class="payment-methods">
-                        <div class="payment-method-title">Méthodes de paiement acceptées</div>
-                        <div class="payment-icons">
-                            <div class="payment-icon visa"></div>
-                            <div class="payment-icon mastercard"></div>
-                            <div class="payment-icon amex"></div>
-                            <div class="payment-icon bank"></div>
+
+                    <button class="checkout-btn" id="checkout-btn" disabled>Procéder au paiement</button>
+                    
+                    <div class="payment-security">
+                        <div class="security-label"><i class="fas fa-lock"></i> Paiement sécurisé</div>
+                        <div class="payment-methods">
+                            <div class="payment-icons">
+                                <div class="payment-icon visa"><i class="fab fa-cc-visa"></i></div>
+                                <div class="payment-icon mastercard"><i class="fab fa-cc-mastercard"></i></div>
+                                <div class="payment-icon amex"><i class="fab fa-cc-amex"></i></div>
+                                <div class="payment-icon bank"><i class="fas fa-university"></i></div>
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="cart-help">
+                        <h3>Besoin d'aide ?</h3>
+                        <p>Notre équipe est à votre disposition pour toute question concernant votre achat.</p>
+                        <a href="index.html#contact" class="help-link"><i class="fas fa-envelope"></i> Contactez-nous</a>
                     </div>
                 </div>
             </div>
@@ -106,37 +149,45 @@
             <!-- Suggestions -->
             <div class="suggestions">
                 <h2>Vous pourriez aussi aimer</h2>
-                <div class="suggestion-items">
-                    <div class="suggestion-item">
-                        <div class="suggestion-image">
-                            <img src="styles/img/Bateauaccueil1.png" alt="2021 Tecnomar 63">
-                        </div>
-                        <div class="suggestion-details">
-                            <h3>2021 Tecnomar 63</h3>
-                            <div class="suggestion-price">3 790 000 €</div>
-                            <div class="suggestion-specs">
-                                <span>Motoryacht</span> • <span>19m</span>
-                            </div>
-                            <button class="add-suggestion-btn">Ajouter au panier</button>
-                        </div>
-                    </div>
-                    <div class="suggestion-item">
-                        <div class="suggestion-image">
-                            <img src="styles/img/Bateauaccueil3.png" alt="2025 Fountaine Pajot Alegria 67">
-                        </div>
-                        <div class="suggestion-details">
-                            <h3>2025 Fountaine Pajot Alegria 67</h3>
-                            <div class="suggestion-price">484 571 €</div>
-                            <div class="suggestion-specs">
-                                <span>Catamaran</span> • <span>20m</span>
-                            </div>
-                            <button class="add-suggestion-btn">Ajouter au panier</button>
-                        </div>
-                    </div>
+                <div class="suggestion-items" id="suggestion-container">
+                    <!-- Les suggestions seront générées dynamiquement par JavaScript -->
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Modal de confirmation -->
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="modal-icon"><i class="fas fa-check-circle"></i></div>
+                <h2>Yacht ajouté au panier</h2>
+                <p>Votre yacht a été ajouté à votre panier avec succès.</p>
+                <div class="modal-actions">
+                    <a href="acheter.html" class="modal-btn secondary">Continuer mes achats</a>
+                    <a href="panier.html" class="modal-btn primary">Voir mon panier</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal d'erreur -->
+    <div id="error-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="modal-icon error"><i class="fas fa-exclamation-circle"></i></div>
+                <h2>Ce yacht est déjà dans votre panier</h2>
+                <p>Chaque yacht est unique et ne peut être ajouté qu'une seule fois au panier.</p>
+                <p>Vous pouvez modifier ses options ou en choisir un autre.</p>
+                <div class="modal-actions">
+                    <a href="acheter.html" class="modal-btn secondary">Continuer mes achats</a>
+                    <a href="panier.html" class="modal-btn primary">Voir mon panier</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -165,9 +216,9 @@
                     <h3>Nos Yachts</h3>
                     <ul>
                         <li><a href="yacht-detail.html">Heysea Asteria 142</a></li>
-                        <li><a href="#">Tecnomar 63</a></li>
-                        <li><a href="#">Fountaine Pajot Alegria 67</a></li>
-                        <li><a href="#">Cheoy Lee 66 LRC</a></li>
+                        <li><a href="yacht-detail4.html">Tecnomar 63</a></li>
+                        <li><a href="yacht-detail2.html">Icon 67m</a></li>
+                        <li><a href="yacht-detail3.html">Sunseeker Portofino 47</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">

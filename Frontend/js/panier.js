@@ -1,41 +1,118 @@
-// Gestion globale du panier avec localStorage
+// NavalfleetCart - Système amélioré de gestion du panier
 const NavalfleetCart = {
     // Initialisation du panier
     init: function() {
+        // Éléments DOM du panier
+        this.cartCountElement = document.getElementById('cart-count');
+        this.cartItemsContainer = document.getElementById('cart-items-container');
+        this.emptyCartMessage = document.getElementById('empty-cart');
+        this.subtotalElement = document.getElementById('subtotal-price');
+        this.discountRowElement = document.getElementById('discount-row');
+        this.discountAmountElement = document.getElementById('discount-amount');
+        this.totalElement = document.getElementById('total-price');
+        this.checkoutBtn = document.getElementById('checkout-btn');
+        this.clearCartBtn = document.getElementById('clear-cart');
+        this.promoCodeInput = document.getElementById('promo-code');
+        this.promoApplyBtn = document.getElementById('apply-promo');
+        this.promoMessageElement = document.getElementById('promo-message');
+        this.suggestionContainer = document.getElementById('suggestion-container');
+        this.confirmationModal = document.getElementById('confirmation-modal');
+        this.errorModal = document.getElementById('error-modal');
+        
+        // Initialiser le panier
         this.updateCartDisplay();
+        
+        // Attacher les événements
         this.bindEvents();
         
-        // Initialiser la gestion du code promo
-        this.initPromoCode();
+        // Initialiser les suggestions
+        this.initSuggestions();
     },
 
-    // Événements globaux
+    // Attacher tous les événements
     bindEvents: function() {
-        // Surveiller tous les boutons d'ajout au panier sur la page
+        // Si nous sommes sur la page panier
+        if (window.location.pathname.includes('panier.html')) {
+            // Événement pour vider le panier
+            if (this.clearCartBtn) {
+                this.clearCartBtn.addEventListener('click', () => this.confirmClearCart());
+            }
+            
+            // Événement pour le code promo
+            if (this.promoApplyBtn) {
+                this.promoApplyBtn.addEventListener('click', () => this.applyPromoCode());
+            }
+            
+            // Événement pour la touche Entrée dans le champ de code promo
+            if (this.promoCodeInput) {
+                this.promoCodeInput.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') {
+                        this.applyPromoCode();
+                    }
+                });
+            }
+            
+            // Événement pour le paiement
+            if (this.checkoutBtn) {
+                this.checkoutBtn.addEventListener('click', () => this.proceedToCheckout());
+            }
+            
+            // Fermeture des modals
+            document.querySelectorAll('.close-modal').forEach(closeBtn => {
+                closeBtn.addEventListener('click', () => {
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                });
+            });
+            
+            // Fermeture des modals en cliquant en dehors
+            window.addEventListener('click', (e) => {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+        }
+        
+        // Surveiller tous les boutons d'ajout au panier sur le site
         document.querySelectorAll('.add-to-cart-btn, .add-suggestion-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
+            btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Trouver les informations du yacht
-                let yachtData = NavalfleetCart.getYachtDataFromButton(this);
+                // Récupérer les informations du yacht
+                const yachtData = this.getYachtDataFromButton(btn);
                 
-                // Ajouter au panier
-                NavalfleetCart.addToCart(yachtData);
-                
-                // Animation et feedback
-                NavalfleetCart.animateAddToCart(this, yachtData.name);
+                if (yachtData) {
+                    // Vérifier si le yacht est déjà dans le panier
+                    if (this.isYachtInCart(yachtData.id)) {
+                        // Afficher un message d'erreur
+                        this.showErrorModal('Ce yacht est déjà dans votre panier. Chaque yacht est unique et ne peut être ajouté qu\'une seule fois.');
+                    } else {
+                        // Ajouter au panier
+                        this.addToCart(yachtData);
+                        
+                        // Animation et feedback
+                        this.animateAddToCart(btn, yachtData.name);
+                    }
+                }
             });
         });
         
-        // Si nous sommes sur la page panier, configurer les événements spécifiques
-        if (window.location.pathname.includes('panier.html')) {
-            this.setupCartPageEvents();
-        }
+        // Mettre à jour le compteur du panier dans la barre de navigation
+        this.updateCartCounter();
+    },
+    
+    // Vérifier si un yacht est déjà dans le panier
+    isYachtInCart: function(yachtId) {
+        const cart = this.getCart();
+        return cart.some(item => item.id === yachtId);
     },
     
     // Récupérer les données du yacht à partir du bouton cliqué
     getYachtDataFromButton: function(button) {
-        let container = button.closest('.yacht-card, .suggestion-item, .purchase-box');
+        let container = button.closest('.yacht-card, .suggestion-item, .purchase-box, .quick-view-content');
         if (!container) return null;
         
         // Pour la page de détail du yacht
@@ -46,24 +123,38 @@ const NavalfleetCart = {
             const crew = document.getElementById('crew')?.value || 'none';
             
             // Récupérer le nom du yacht depuis le titre de la page
-            const yachtName = document.querySelector('.yacht-title h1')?.textContent || '2023 Heysea Asteria 142';
+            const yachtName = document.querySelector('.yacht-title h1')?.textContent || 'Yacht';
             
-            // Générer un ID stable basé sur le nom
+            // Générer un ID unique basé sur le nom
             const yachtId = 'yacht-' + yachtName.replace(/\s+/g, '-').toLowerCase();
+            
+            // Récupérer les autres informations
+            const yachtPrice = document.querySelector('.price-amount')?.textContent || '0 €';
+            const yachtPriceEur = document.querySelector('.price-converted')?.textContent || '0 €';
+            const yachtImage = document.querySelector('.main-image img')?.src || '';
+            const yachtType = document.querySelector('.yacht-type')?.textContent || 'Yacht';
+            
+            // Récupérer les spécifications
+            const yachtLength = document.querySelector('.spec-item:nth-child(1) .spec-value')?.textContent || '0m';
+            const yachtYear = document.querySelector('.spec-item:nth-child(2) .spec-value')?.textContent || '2023';
+            const yachtEngine = document.querySelector('.spec-item:nth-child(3) .spec-value')?.textContent || '0hp';
+            
+            // Récupérer l'emplacement
+            const yachtLocation = document.querySelector('.yacht-location')?.textContent || 'Sur demande';
             
             return {
                 id: yachtId,
                 name: yachtName,
-                price: document.querySelector('.price-amount')?.textContent || '26 800 000 $',
-                priceEur: document.querySelector('.price-converted')?.textContent || '(23 611 815 €)',
-                image: document.querySelector('.main-image img')?.src || 'styles/img/Bateauaccueil2.png',
-                type: 'Mega Yacht',
+                price: yachtPrice,
+                priceEur: yachtPriceEur,
+                image: yachtImage,
+                type: yachtType,
                 specs: {
-                    length: '43m',
-                    year: '2023',
-                    engine: '13840hp'
+                    length: yachtLength,
+                    year: yachtYear,
+                    engine: yachtEngine
                 },
-                location: 'Zhuhai, Chine',
+                location: yachtLocation,
                 options: {
                     purchaseType,
                     deliveryLocation,
@@ -72,52 +163,48 @@ const NavalfleetCart = {
             };
         }
         
-        // Pour les cartes de yacht sur d'autres pages
-        let name = container.querySelector('h3')?.textContent || '';
+        // Pour les cartes de yacht et suggestions
+        const yachtId = container.dataset.id || ('yacht-' + Math.random().toString(36).substring(2, 9));
+        const yachtName = container.querySelector('h3')?.textContent || 'Yacht';
+        const yachtPrice = container.querySelector('.yacht-price, .suggestion-price')?.textContent || '0 €';
+        const yachtImage = container.querySelector('img')?.src || '';
+        const yachtType = container.querySelector('.yacht-type, .suggestion-specs')?.textContent?.split('•')?.[0]?.trim() || 'Yacht';
         
-        // Générer un ID stable basé sur le nom
-        const yachtId = 'yacht-' + name.replace(/\s+/g, '-').toLowerCase();
+        // Récupérer les spécifications
+        let yachtLength = '0m';
+        let yachtYear = '2023';
+        let yachtEngine = '0hp';
         
-        let price = '';
-        let priceEur = '';
-        let priceElement = container.querySelector('.yacht-price, .suggestion-price');
-        if (priceElement) {
-            // Déterminer s'il y a deux prix ($ et €) ou un seul
-            if (container.querySelector('.price-amount')) {
-                price = container.querySelector('.price-amount').textContent;
-                priceEur = container.querySelector('.price-converted').textContent;
-            } else {
-                priceEur = priceElement.textContent;
-                // Convertir € en $ approximativement
-                let priceNumber = parseFloat(priceEur.replace(/[^0-9,.]/g, '').replace(',', '.'));
-                price = (priceNumber * 1.13).toLocaleString('fr-FR') + ' $';
+        const specItems = container.querySelectorAll('.spec-item');
+        if (specItems.length > 0) {
+            yachtLength = specItems[0]?.textContent.trim() || '0m';
+            yachtYear = specItems[1]?.textContent.trim() || '2023';
+            yachtEngine = specItems[2]?.textContent.trim() || '0hp';
+        } else {
+            // Pour les suggestions
+            const specText = container.querySelector('.suggestion-specs')?.textContent || '';
+            const specParts = specText.split('•');
+            if (specParts.length > 1) {
+                yachtLength = specParts[1]?.trim() || '0m';
             }
         }
         
-        let type = container.querySelector('.yacht-type')?.textContent || 
-                  container.querySelector('.suggestion-specs')?.textContent.split('•')[0]?.trim() || 
-                  'Yacht';
-                  
-        let length = container.querySelector('.spec-item:nth-child(1)')?.textContent.trim() || 
-                    container.querySelector('.suggestion-specs')?.textContent.split('•')[1]?.trim() || 
-                    '20m';
-                    
-        let year = container.querySelector('.spec-item:nth-child(2)')?.textContent.trim() || '2023';
-        
-        let image = container.querySelector('img')?.src || '';
+        // Récupérer l'emplacement
+        const yachtLocation = container.querySelector('.yacht-location')?.textContent || 'Sur demande';
         
         return {
             id: yachtId,
-            name,
-            price,
-            priceEur,
-            image,
-            type,
+            name: yachtName,
+            price: yachtPrice,
+            priceEur: yachtPrice,
+            image: yachtImage,
+            type: yachtType,
             specs: {
-                length,
-                year
+                length: yachtLength,
+                year: yachtYear,
+                engine: yachtEngine
             },
-            location: container.querySelector('.yacht-location')?.textContent || 'Sur demande',
+            location: yachtLocation,
             options: {
                 purchaseType: 'full',
                 deliveryLocation: 'current',
@@ -128,37 +215,38 @@ const NavalfleetCart = {
     
     // Ajouter un yacht au panier
     addToCart: function(yachtData) {
-        if (!yachtData) return;
+        if (!yachtData) return false;
         
         // Récupérer le panier actuel
         let cart = this.getCart();
         
-        // Vérifier si ce modèle de yacht existe déjà dans le panier
-        const existingYachtIndex = cart.findIndex(item => 
-            item.name === yachtData.name && 
-            item.specs.year === yachtData.specs.year
-        );
+        // Vérifier si ce yacht existe déjà dans le panier
+        const existingYachtIndex = cart.findIndex(item => item.id === yachtData.id);
         
         if (existingYachtIndex !== -1) {
-            // Si le yacht existe déjà, mettre à jour ses options au lieu d'ajouter un doublon
-            cart[existingYachtIndex].options = yachtData.options;
-            
-            // Afficher une notification
-            this.showNotification(`Options de "${yachtData.name}" mises à jour dans votre panier`);
+            // Si le yacht existe déjà, montrer le modal d'erreur
+            this.showErrorModal('Ce yacht est déjà dans votre panier. Chaque yacht est unique et ne peut être ajouté qu\'une seule fois.');
+            return false;
         } else {
-            // Ajouter l'article avec un ID unique basé sur le nom et l'année
-            yachtData.id = 'yacht-' + yachtData.name.replace(/\s+/g, '-').toLowerCase() + '-' + yachtData.specs.year;
+            // Ajouter le yacht au panier
             cart.push(yachtData);
             
-            // Afficher une notification
-            this.showNotification(`"${yachtData.name}" ajouté à votre panier`);
+            // Sauvegarder le panier
+            this.saveCart(cart);
+            
+            // Mettre à jour l'affichage
+            this.updateCartDisplay();
+            
+            // Afficher le modal de confirmation si nous ne sommes pas sur la page panier
+            if (!window.location.pathname.includes('panier.html')) {
+                this.showConfirmationModal(yachtData.name);
+            } else {
+                // Sinon, afficher une notification
+                this.showNotification(`"${yachtData.name}" ajouté à votre panier`, 'success');
+            }
+            
+            return true;
         }
-        
-        // Sauvegarder le panier
-        this.saveCart(cart);
-        
-        // Mettre à jour l'affichage
-        this.updateCartDisplay();
     },
     
     // Récupérer le panier depuis localStorage
@@ -182,17 +270,26 @@ const NavalfleetCart = {
         
         // Afficher une notification
         if (removedItem) {
-            this.showNotification(`"${removedItem.name}" supprimé de votre panier`);
+            this.showNotification(`"${removedItem.name}" supprimé de votre panier`, 'success');
+        }
+    },
+    
+    // Vider le panier avec confirmation
+    confirmClearCart: function() {
+        if (confirm('Êtes-vous sûr de vouloir vider votre panier ?')) {
+            this.clearCart();
         }
     },
     
     // Vider le panier
     clearCart: function() {
         this.saveCart([]);
+        this.clearActivePromo();
         this.updateCartDisplay();
+        this.showNotification('Votre panier a été vidé', 'success');
     },
     
-    // Mettre à jour l'affichage du nombre d'articles
+    // Mettre à jour l'affichage du panier
     updateCartDisplay: function() {
         const cartItems = this.getCart();
         
@@ -201,13 +298,26 @@ const NavalfleetCart = {
         
         // Si nous sommes sur la page panier, mettre à jour le contenu
         if (window.location.pathname.includes('panier.html')) {
+            // Mettre à jour le contenu des éléments du panier
             this.renderCartItems(cartItems);
+            
+            // Mettre à jour les suggestions
+            this.updateSuggestions(cartItems);
         }
     },
     
     // Mettre à jour le compteur du panier
-    updateCartCounter: function(count) {
-        // Ajouter un compteur à côté du lien Panier s'il n'existe pas déjà
+    updateCartCounter: function(count = null) {
+        if (count === null) {
+            count = this.getCart().length;
+        }
+        
+        // Mettre à jour le compteur dans l'en-tête du panier si présent
+        if (this.cartCountElement) {
+            this.cartCountElement.textContent = count;
+        }
+        
+        // Ajouter un compteur à côté du lien Panier dans la navigation
         const navLinks = document.querySelectorAll('nav ul li a');
         navLinks.forEach(link => {
             if (link.textContent.includes('Panier')) {
@@ -218,206 +328,232 @@ const NavalfleetCart = {
                     if (!counter) {
                         counter = document.createElement('span');
                         counter.className = 'cart-counter';
-                        counter.style.display = 'inline-flex';
-                        counter.style.alignItems = 'center';
-                        counter.style.justifyContent = 'center';
-                        counter.style.width = '20px';
-                        counter.style.height = '20px';
-                        counter.style.borderRadius = '50%';
-                        counter.style.backgroundColor = '#d9a82e';
-                        counter.style.color = '#fff';
-                        counter.style.fontSize = '12px';
-                        counter.style.marginLeft = '5px';
-                        counter.style.fontWeight = 'bold';
-                        
                         link.appendChild(counter);
                     }
                     counter.textContent = count;
+                    counter.classList.add('active');
                 } else if (counter) {
-                    link.removeChild(counter);
+                    counter.textContent = '0';
+                    counter.classList.remove('active');
                 }
             }
         });
     },
     
-    // Afficher les articles du panier sur la page panier
+    // Afficher les articles du panier
     renderCartItems: function(cartItems) {
-        const cartItemsContainer = document.querySelector('.cart-items');
-        const emptyCart = document.querySelector('.empty-cart');
-        const orderSummary = document.querySelector('.order-summary');
+        // Si les éléments DOM n'existent pas, sortir de la fonction
+        if (!this.cartItemsContainer || !this.emptyCartMessage) return;
         
-        // Mettre à jour le titre avec le nombre d'articles
-        const cartItemsTitle = document.querySelector('.cart-items h2');
-        if (cartItemsTitle) {
-            cartItemsTitle.textContent = `Articles dans votre panier (${cartItems.length})`;
-        }
+        // Vider le conteneur des articles
+        this.cartItemsContainer.innerHTML = '';
         
         // Si le panier est vide
         if (cartItems.length === 0) {
-            if (cartItemsContainer) {
-                // Masquer tous les articles
-                const items = cartItemsContainer.querySelectorAll('.cart-item');
-                items.forEach(item => {
-                    item.style.display = 'none';
-                });
+            this.emptyCartMessage.style.display = 'block';
+            this.cartItemsContainer.style.display = 'none';
+            
+            // Désactiver le bouton de paiement
+            if (this.checkoutBtn) {
+                this.checkoutBtn.disabled = true;
             }
             
-            // Afficher le message de panier vide
-            if (emptyCart) {
-                emptyCart.style.display = 'block';
-                
-                // Désactiver le résumé
-                if (orderSummary) {
-                    orderSummary.style.opacity = '0.5';
-                    const checkoutBtn = orderSummary.querySelector('.checkout-btn');
-                    if (checkoutBtn) checkoutBtn.disabled = true;
-                }
-            }
-            
-            // Mettre à jour le résumé avec un montant de 0
+            // Mettre à jour le résumé avec des montants à zéro
             this.updateOrderSummary(0);
             return;
         }
         
         // Si nous avons des articles
-        if (emptyCart) {
-            emptyCart.style.display = 'none';
+        this.emptyCartMessage.style.display = 'none';
+        this.cartItemsContainer.style.display = 'block';
+        
+        // Activer le bouton de paiement
+        if (this.checkoutBtn) {
+            this.checkoutBtn.disabled = false;
         }
         
-        // Réactiver le résumé
-        if (orderSummary) {
-            orderSummary.style.opacity = '1';
-            const checkoutBtn = orderSummary.querySelector('.checkout-btn');
-            if (checkoutBtn) checkoutBtn.disabled = false;
-        }
-        
-        // Créer les éléments HTML pour chaque article
-        let itemsHTML = '';
+        // Variables pour le total
         let totalPrice = 0;
         
+        // Créer les éléments HTML pour chaque article
         cartItems.forEach(item => {
             try {
                 // Calculer le prix total
-                let priceText = item.priceEur || '0 €';
-                // Extraire le nombre du texte du prix (supprime tout sauf les chiffres, points et virgules)
-                let priceStr = priceText.replace(/[^0-9,.]/g, '').replace(',', '.');
+                let priceText = item.priceEur || item.price || '0 €';
+                
+                // Nouveau traitement des prix qui gère correctement les grands nombres
+                let priceStr;
+                
+                // Vérifier le format du prix
+                if (/^\s*\d{1,3}(?:\s\d{3})+(?:[,.]\d+)?\s*[€$£]?\s*$/.test(priceText)) {
+                    // Format avec espaces comme séparateurs de milliers (3 790 000 €)
+                    priceStr = priceText.replace(/\s/g, '').replace(/[€$£]/g, '').replace(',', '.');
+                } else if (/^\s*\d{1,3}(?:\.\d{3})+(?:,\d+)?\s*[€$£]?\s*$/.test(priceText)) {
+                    // Format européen avec points comme séparateurs de milliers (3.790.000,00 €)
+                    priceStr = priceText.replace(/\./g, '').replace(/[€$£]/g, '').replace(',', '.');
+                } else if (/^\s*\d{1,3}(?:,\d{3})+(?:\.\d+)?\s*[€$£]?\s*$/.test(priceText)) {
+                    // Format américain avec virgules comme séparateurs de milliers (3,790,000.00 $)
+                    priceStr = priceText.replace(/,/g, '').replace(/[€$£]/g, '');
+                } else {
+                    // Format simple sans séparateurs ou autre format
+                    priceStr = priceText.replace(/[^0-9,.]/g, '');
+                    
+                    // S'il reste une virgule, la convertir en point
+                    if (priceStr.includes(',') && !priceStr.includes('.')) {
+                        priceStr = priceStr.replace(',', '.');
+                    } 
+                    // Si plusieurs virgules, c'est probablement un séparateur de milliers
+                    else if ((priceStr.match(/,/g) || []).length > 1) {
+                        priceStr = priceStr.replace(/,/g, '');
+                    }
+                }
+                
+                // Convertir en nombre
                 let price = parseFloat(priceStr);
+                
+                // Ajouter un console.log pour déboguer
+                console.log(`Prix original: ${priceText}, Prix traité: ${priceStr}, Prix final: ${price}`);
                 
                 if (!isNaN(price)) {
                     totalPrice += price;
                 }
                 
-                let purchaseTypeText = '';
-                switch (item.options.purchaseType) {
-                    case 'full': purchaseTypeText = 'Achat complet'; break;
-                    case 'part': purchaseTypeText = 'Copropriété (25%)'; break;
-                    case 'lease': purchaseTypeText = 'Location longue durée'; break;
-                    default: purchaseTypeText = 'Achat complet';
-                }
+                // Déterminer les textes des options
+                let purchaseTypeText = this.getPurchaseTypeText(item.options?.purchaseType);
+                let deliveryLocationText = this.getDeliveryLocationText(item.options?.deliveryLocation);
+                let crewText = this.getCrewText(item.options?.crew);
                 
-                let deliveryLocationText = '';
-                switch (item.options.deliveryLocation) {
-                    case 'current': deliveryLocationText = 'Emplacement actuel'; break;
-                    case 'monaco': deliveryLocationText = 'Monaco'; break;
-                    case 'cannes': deliveryLocationText = 'Cannes'; break;
-                    case 'stTropez': deliveryLocationText = 'Saint-Tropez'; break;
-                    default: deliveryLocationText = 'Emplacement actuel';
-                }
+                // Créer l'élément HTML
+                const cartItemElement = document.createElement('div');
+                cartItemElement.className = 'cart-item';
+                cartItemElement.dataset.id = item.id;
                 
-                let crewText = '';
-                switch (item.options.crew) {
-                    case 'none': crewText = 'Sans équipage'; break;
-                    case 'basic': crewText = 'Équipage basique (3 personnes)'; break;
-                    case 'full': crewText = 'Équipage complet (8 personnes)'; break;
-                    default: crewText = 'Sans équipage';
-                }
-                
-                itemsHTML += `
-                    <div class="cart-item" data-id="${item.id}">
-                        <div class="item-image">
-                            <img src="${item.image}" alt="${item.name}">
+                cartItemElement.innerHTML = `
+                    <div class="item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="item-details">
+                        <h3>${item.name}</h3>
+                        <div class="item-specs">
+                            <span><i class="fas fa-ship"></i> ${item.type}</span>
+                            <span><i class="fas fa-ruler-horizontal"></i> ${item.specs?.length || '0m'}</span>
+                            <span><i class="fas fa-calendar-alt"></i> ${item.specs?.year || '2023'}</span>
                         </div>
-                        <div class="item-details">
-                            <h3>${item.name}</h3>
-                            <div class="item-specs">
-                                <span>${item.type}</span>
-                                <span>•</span>
-                                <span>${item.specs.length}</span>
-                                <span>•</span>
-                                <span>${item.specs.year}</span>
+                        <div class="item-options">
+                            <div class="option">
+                                <span class="option-label">Mode d'acquisition:</span>
+                                <span class="option-value">${purchaseTypeText}</span>
                             </div>
-                            <div class="item-options">
-                                <div class="option">
-                                    <span class="option-label">Mode d'acquisition:</span>
-                                    <span class="option-value">${purchaseTypeText}</span>
-                                </div>
-                                <div class="option">
-                                    <span class="option-label">Lieu de livraison:</span>
-                                    <span class="option-value">${deliveryLocationText}</span>
-                                </div>
-                                <div class="option">
-                                    <span class="option-label">Service équipage:</span>
-                                    <span class="option-value">${crewText}</span>
-                                </div>
+                            <div class="option">
+                                <span class="option-label">Lieu de livraison:</span>
+                                <span class="option-value">${deliveryLocationText}</span>
                             </div>
-                            <div class="item-actions">
-                                <button class="edit-btn" data-id="${item.id}">Modifier</button>
-                                <button class="remove-btn" data-id="${item.id}">Supprimer</button>
+                            <div class="option">
+                                <span class="option-label">Service équipage:</span>
+                                <span class="option-value">${crewText}</span>
                             </div>
                         </div>
-                        <div class="item-price">
-                            <div class="current-price">${item.priceEur ? item.priceEur.replace(/[()]/g, '') : '0 €'}</div>
-                            <div class="original-price">${item.price || ''}</div>
+                        <div class="item-actions">
+                            <button class="edit-btn" data-id="${item.id}">Modifier</button>
+                            <button class="remove-btn" data-id="${item.id}">Supprimer</button>
                         </div>
                     </div>
+                    <div class="item-price">
+                        <div class="current-price">${this.formatPrice(price)}</div>
+                        ${item.price !== item.priceEur ? `<div class="original-price">${item.price}</div>` : ''}
+                    </div>
                 `;
+                
+                // Ajouter l'élément au conteneur
+                this.cartItemsContainer.appendChild(cartItemElement);
+                
+                // Ajouter les événements pour les boutons
+                this.attachCartItemEvents(cartItemElement);
+                
             } catch (error) {
                 console.error("Erreur lors du rendu d'un article:", error);
-                console.log("Article problématique:", item);
             }
         });
         
-        // Mettre à jour le contenu
-        if (cartItemsContainer) {
-            // Supprimer les articles existants sauf le titre
-            const itemsToRemove = cartItemsContainer.querySelectorAll('.cart-item');
-            itemsToRemove.forEach(item => {
-                item.remove();
-            });
-            
-            // Insérer les nouveaux articles après le titre
-            const title = cartItemsContainer.querySelector('h2');
-            if (title) {
-                title.insertAdjacentHTML('afterend', itemsHTML);
-            } else {
-                cartItemsContainer.innerHTML = itemsHTML;
-            }
-        }
-        
         // Mettre à jour le résumé de la commande
         this.updateOrderSummary(totalPrice);
+    },
+    
+    // Attacher les événements aux éléments du panier
+    attachCartItemEvents: function(cartItemElement) {
+        // Bouton de suppression
+        const removeBtn = cartItemElement.querySelector('.remove-btn');
+        if (removeBtn) {
+            removeBtn.addEventListener('click', () => {
+                const yachtId = removeBtn.dataset.id;
+                const cartItem = removeBtn.closest('.cart-item');
+                
+                // Animation de suppression
+                cartItem.style.opacity = '0.5';
+                cartItem.style.transform = 'translateX(20px)';
+                cartItem.style.transition = 'opacity 0.3s, transform 0.3s';
+                
+                // Après l'animation, supprimer l'article
+                setTimeout(() => {
+                    this.removeFromCart(yachtId);
+                }, 300);
+            });
+        }
         
-        // Configurer les événements pour les nouveaux boutons
-        this.setupCartPageEvents();
+        // Bouton de modification
+        const editBtn = cartItemElement.querySelector('.edit-btn');
+        if (editBtn) {
+            editBtn.addEventListener('click', () => {
+                const yachtId = editBtn.dataset.id;
+                
+                // Rediriger vers la page de détail correspondante
+                // On pourrait améliorer ceci en stockant l'URL dans les données du panier
+                this.redirectToYachtDetail(yachtId);
+            });
+        }
+    },
+    
+    // Rediriger vers la page de détail
+    redirectToYachtDetail: function(yachtId) {
+        const cart = this.getCart();
+        const yacht = cart.find(item => item.id === yachtId);
+        
+        if (yacht) {
+            // Construire l'URL en fonction du nom
+            let detailUrl = 'yacht-detail.html';
+            
+            // Redirection basée sur le nom du yacht
+            if (yacht.name.includes('Tecnomar')) {
+                detailUrl = 'yacht-detail4.html';
+            } else if (yacht.name.includes('Heysea')) {
+                detailUrl = 'yacht-detail.html';
+            } else if (yacht.name.includes('Icon')) {
+                detailUrl = 'yacht-detail2.html';
+            } else if (yacht.name.includes('Sunseeker')) {
+                detailUrl = 'yacht-detail3.html';
+            }
+            
+            window.location.href = detailUrl;
+        }
     },
     
     // Mettre à jour le résumé de la commande
     updateOrderSummary: function(totalPrice) {
-        const summaryDetails = document.querySelector('.summary-details');
-        if (!summaryDetails) return;
+        // Si les éléments DOM n'existent pas, sortir de la fonction
+        if (!this.subtotalElement || !this.totalElement) return;
         
         // Vérifier si un code promo est actif
         const activePromo = this.getActivePromo();
         let finalPrice = totalPrice;
         
+        // Mettre à jour le sous-total
+        this.subtotalElement.textContent = this.formatPrice(totalPrice);
+        
         // Appliquer la réduction si un code promo est actif
         if (activePromo) {
             // Mettre à jour l'affichage de la remise
-            const discountRow = summaryDetails.querySelector('.discount-row');
-            const discountAmount = summaryDetails.querySelector('.discount-amount');
-            
-            if (discountRow && discountAmount) {
-                // Calculer et afficher le montant de la remise
+            if (this.discountRowElement && this.discountAmountElement) {
+                // Calculer la remise
                 let discountValue = 0;
                 
                 if (activePromo.code === 'ALLAN') {
@@ -432,242 +568,159 @@ const NavalfleetCart = {
                 // Plafonner la remise au montant total
                 discountValue = Math.min(discountValue, totalPrice);
                 
-                // Formater la remise
-                const formattedDiscount = new Intl.NumberFormat('fr-FR', { 
-                    style: 'currency', 
-                    currency: 'EUR',
-                    maximumFractionDigits: 0
-                }).format(discountValue);
-                
                 // Mettre à jour l'affichage
-                discountAmount.textContent = `- ${formattedDiscount}`;
-                discountRow.classList.add('active');
-                discountRow.style.display = 'flex';
+                this.discountAmountElement.textContent = `- ${this.formatPrice(discountValue)}`;
+                this.discountRowElement.classList.add('active');
                 
                 // Appliquer la remise au prix final
                 finalPrice = totalPrice - discountValue;
             }
         } else {
             // Masquer la ligne de remise si aucun code promo n'est actif
-            const discountRow = summaryDetails.querySelector('.discount-row');
-            if (discountRow) {
-                discountRow.classList.remove('active');
-                discountRow.style.display = 'none';
+            if (this.discountRowElement) {
+                this.discountRowElement.classList.remove('active');
             }
         }
         
-        // Formater le prix
-        const formattedSubtotal = new Intl.NumberFormat('fr-FR', { 
-            style: 'currency', 
-            currency: 'EUR',
-            maximumFractionDigits: 0
-        }).format(totalPrice);
+        // Mettre à jour le prix total
+        this.totalElement.textContent = this.formatPrice(finalPrice);
         
-        const formattedTotal = new Intl.NumberFormat('fr-FR', { 
-            style: 'currency', 
-            currency: 'EUR',
-            maximumFractionDigits: 0
-        }).format(finalPrice);
-        
-        // Mettre à jour les montants
-        const subtotalRow = summaryDetails.querySelector('.summary-row:nth-child(1) span:nth-child(2)');
-        const totalRow = summaryDetails.querySelector('.summary-row.total span:nth-child(2)');
-        
-        if (subtotalRow) subtotalRow.textContent = formattedSubtotal;
-        if (totalRow) totalRow.textContent = formattedTotal;
-        
-        // Activer/désactiver le bouton de paiement
-        const checkoutBtn = document.querySelector('.checkout-btn');
-        if (checkoutBtn) {
+        // Mettre à jour le texte du bouton de paiement
+        if (this.checkoutBtn) {
             if (finalPrice <= 0) {
-                checkoutBtn.textContent = 'Obtenir gratuitement';
+                this.checkoutBtn.textContent = 'Obtenir gratuitement';
             } else {
-                checkoutBtn.textContent = 'Procéder au paiement';
+                this.checkoutBtn.textContent = 'Procéder au paiement';
             }
-            
-            checkoutBtn.disabled = false;
-            checkoutBtn.style.opacity = '1';
-            checkoutBtn.style.cursor = 'pointer';
         }
     },
     
-    // Ajouter ces nouvelles fonctions pour gérer les codes promo
-    initPromoCode: function() {
-        if (!window.location.pathname.includes('panier.html')) return;
+    // Appliquer un code promo
+    applyPromoCode: function() {
+        // Si les éléments DOM n'existent pas, sortir de la fonction
+        if (!this.promoCodeInput || !this.promoMessageElement) return;
         
-        const applyPromoBtn = document.getElementById('apply-promo');
-        if (!applyPromoBtn) return;
+        const code = this.promoCodeInput.value.trim().toUpperCase();
         
-        applyPromoBtn.addEventListener('click', () => {
-            const promoCodeInput = document.getElementById('promo-code');
-            const promoMessage = document.getElementById('promo-message');
+        if (!code) {
+            this.showPromoMessage('Veuillez saisir un code promotionnel', 'error');
+            return;
+        }
+        
+        // Valider le code promo
+        if (code === 'ALAN') {
+            // Enregistrer le code promo actif
+            this.setActivePromo({
+                code: 'ALAN',
+                percentOff: 100,
+                message: 'Code promotionnel ALLAN appliqué - 100% de réduction!'
+            });
             
-            if (!promoCodeInput || !promoMessage) return;
+            this.showPromoMessage('Code ALLAN appliqué avec succès! Votre commande est gratuite!', 'success');
             
-            const code = promoCodeInput.value.trim().toUpperCase();
-            if (!code) {
-                this.showPromoMessage(promoMessage, 'Veuillez saisir un code promotionnel', 'error');
-                return;
-            }
+            // Mettre à jour l'affichage
+            this.updateCartDisplay();
+        } else if (code === 'BIENVENUE') {
+            // Code de bienvenue - 10% de réduction
+            this.setActivePromo({
+                code: 'BIENVENUE',
+                percentOff: 10,
+                message: 'Code promotionnel BIENVENUE appliqué - 10% de réduction!'
+            });
             
-            // Valider le code promo
-            if (code === 'ALLAN') {
-                // Enregistrer le code promo actif
-                this.setActivePromo({
-                    code: 'ALLAN',
-                    percentOff: 100,
-                    message: 'Code promotionnel ALLAN appliqué - 100% de réduction!'
-                });
-                
-                this.showPromoMessage(promoMessage, 'Code ALLAN appliqué avec succès! Votre commande est gratuite!', 'success');
-                
-                // Mettre à jour l'affichage
-                this.updateCartDisplay();
-            } else {
-                this.showPromoMessage(promoMessage, 'Code promotionnel invalide', 'error');
-            }
-        });
+            this.showPromoMessage('Code BIENVENUE appliqué avec succès! Profitez de 10% de réduction sur votre commande.', 'success');
+            
+            // Mettre à jour l'affichage
+            this.updateCartDisplay();
+        } else if (code === 'LUXURY') {
+            // Code pour les yachts de luxe - 5% de réduction
+            this.setActivePromo({
+                code: 'LUXURY',
+                percentOff: 5,
+                message: 'Code promotionnel LUXURY appliqué - 5% de réduction!'
+            });
+            
+            this.showPromoMessage('Code LUXURY appliqué avec succès! Profitez de 5% de réduction sur votre commande.', 'success');
+            
+            // Mettre à jour l'affichage
+            this.updateCartDisplay();
+        } else {
+            this.showPromoMessage('Code promotionnel invalide', 'error');
+            
+            // Animation d'erreur
+            this.promoCodeInput.classList.add('shake');
+            setTimeout(() => {
+                this.promoCodeInput.classList.remove('shake');
+            }, 500);
+        }
     },
     
-    showPromoMessage: function(element, message, type) {
-        if (!element) return;
+    // Afficher un message pour le code promo
+    showPromoMessage: function(message, type) {
+        if (!this.promoMessageElement) return;
         
-        element.textContent = message;
-        element.className = 'promo-message';
+        this.promoMessageElement.textContent = message;
+        this.promoMessageElement.className = 'promo-message';
         
         if (type) {
-            element.classList.add(type);
+            this.promoMessageElement.classList.add(type);
         }
     },
     
+    // Enregistrer un code promo actif
     setActivePromo: function(promoData) {
         localStorage.setItem('navalfleetPromo', JSON.stringify(promoData));
     },
     
+    // Récupérer un code promo actif
     getActivePromo: function() {
         const promoData = localStorage.getItem('navalfleetPromo');
         return promoData ? JSON.parse(promoData) : null;
     },
     
+    // Supprimer un code promo actif
     clearActivePromo: function() {
         localStorage.removeItem('navalfleetPromo');
     },
-    setupCartPageEvents: function() {
-        // Boutons de suppression
-        document.querySelectorAll('.remove-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const yachtId = this.dataset.id;
-                const cartItem = this.closest('.cart-item');
-                
-                // Animation de suppression
-                cartItem.style.opacity = '0.5';
-                cartItem.style.transform = 'translateX(20px)';
-                cartItem.style.transition = 'opacity 0.3s, transform 0.3s';
-                
-                // Après l'animation, supprimer l'article
-                setTimeout(() => {
-                    NavalfleetCart.removeFromCart(yachtId);
-                }, 300);
-            });
-        });
+    
+    // Procéder au paiement
+    proceedToCheckout: function() {
+        if (!this.checkoutBtn) return;
         
-        // Boutons de modification
-        document.querySelectorAll('.edit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Pour cet exemple, nous redirigerons vers la page détail
-                window.location.href = 'yacht-detail.html';
-            });
-        });
+        // Animation pour le bouton
+        const originalText = this.checkoutBtn.textContent;
+        this.checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement en cours...';
+        this.checkoutBtn.disabled = true;
         
-        // Bouton de paiement
-        const checkoutBtn = document.querySelector('.checkout-btn');
-        if (checkoutBtn) {
-            checkoutBtn.addEventListener('click', function() {
-                // Animation pour le bouton
-                const originalText = this.textContent;
-                this.innerHTML = '<span>Traitement en cours...</span>';
-                this.disabled = true;
-                this.style.opacity = '0.8';
-                
-                // Vérifier si un code promo est actif
-                const activePromo = NavalfleetCart.getActivePromo();
-                const isFree = activePromo && activePromo.code === 'ALLAN';
-                
-                // Simuler un redirection vers la page de paiement
-                setTimeout(() => {
-                    if (isFree) {
-                        alert('Félicitations! Votre commande est gratuite grâce au code ALLAN. Votre yacht sera livré prochainement!');
-                    } else {
-                        alert('Merci pour votre achat! Redirection vers la page de paiement sécurisé...');
-                    }
-                    
-                    this.innerHTML = originalText;
-                    this.disabled = false;
-                    this.style.opacity = '1';
-                    
-                    // Si l'achat est complété, on pourrait vider le panier
-                    // NavalfleetCart.clearCart();
-                }, 1500);
-            });
-        }
+        // Vérifier si un code promo est actif
+        const activePromo = this.getActivePromo();
+        const isFree = activePromo && activePromo.code === 'ALLAN';
         
-        // Bouton pour vider le panier
-        const clearCartBtn = document.querySelector('.clear-cart-btn');
-        if (clearCartBtn) {
-            clearCartBtn.addEventListener('click', function() {
-                if (confirm('Êtes-vous sûr de vouloir vider votre panier ?')) {
-                    // Supprimer aussi le code promo actif
-                    NavalfleetCart.clearActivePromo();
-                    NavalfleetCart.clearCart();
-                    NavalfleetCart.showNotification('Votre panier a été vidé');
-                }
-            });
-        }
-        
-        // Boutons d'ajout des suggestions
-        document.querySelectorAll('.add-suggestion-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const suggestionItem = this.closest('.suggestion-item');
-                const yachtData = NavalfleetCart.getYachtDataFromButton(this);
-                
-                // Ajouter au panier
-                NavalfleetCart.addToCart(yachtData);
-                
-                // Animation du bouton
-                this.textContent = '✓ Ajouté';
-                this.style.backgroundColor = '#0a4b78';
-                this.style.color = '#fff';
-                this.style.borderColor = '#0a4b78';
-                
-                setTimeout(() => {
-                    this.textContent = 'Ajouter au panier';
-                    this.style.backgroundColor = '';
-                    this.style.color = '';
-                    this.style.borderColor = '';
-                }, 2000);
-            });
-        });
+        // Simuler un traitement
+        setTimeout(() => {
+            if (isFree) {
+                alert('Félicitations! Votre commande est gratuite grâce au code ALLAN. Votre yacht sera livré prochainement!');
+            } else {
+                window.location.href = 'paiement.html';
+            }
+            
+            this.checkoutBtn.innerHTML = originalText;
+            this.checkoutBtn.disabled = false;
+        }, 1500);
     },
     
-    // Animation pour le bouton d'ajout au panier
+    // Animation pour l'ajout au panier
     animateAddToCart: function(button, productName) {
         // Animation du bouton
-        button.innerHTML = '<span>✓</span> Ajouté au panier';
-        button.style.backgroundColor = '#0a4b78';
+        const originalText = button.textContent;
+        button.innerHTML = '<i class="fas fa-check"></i> Ajouté au panier';
+        button.style.backgroundColor = 'var(--color-success)';
         button.style.color = '#fff';
-        button.style.borderColor = '#0a4b78';
-        
-        // Si nous sommes sur la page détail, rediriger vers le panier
-        if (window.location.pathname.includes('yacht-detail.html')) {
-            setTimeout(() => {
-                window.location.href = 'panier.html';
-            }, 1000);
-            return;
-        }
+        button.style.borderColor = 'var(--color-success)';
         
         // Réinitialiser le bouton après un délai
         setTimeout(() => {
-            button.textContent = 'Ajouter au panier';
+            button.textContent = originalText;
             button.style.backgroundColor = '';
             button.style.color = '';
             button.style.borderColor = '';
@@ -675,7 +728,7 @@ const NavalfleetCart = {
     },
     
     // Afficher une notification
-    showNotification: function(message) {
+    showNotification: function(message, type = 'success') {
         // Supprimer toute notification existante
         const existingNotifications = document.querySelectorAll('.cart-notification');
         existingNotifications.forEach(notification => {
@@ -686,7 +739,7 @@ const NavalfleetCart = {
         
         // Créer une notification
         const notification = document.createElement('div');
-        notification.className = 'cart-notification';
+        notification.className = `cart-notification ${type}`;
         notification.textContent = message;
         
         document.body.appendChild(notification);
@@ -706,6 +759,251 @@ const NavalfleetCart = {
                 }
             }, 300);
         }, 3000);
+    },
+    
+    // Afficher le modal de confirmation
+    showConfirmationModal: function(yachtName) {
+        if (!this.confirmationModal) return;
+        
+        // Mettre à jour le contenu du modal
+        const modalBody = this.confirmationModal.querySelector('.modal-body');
+        if (modalBody) {
+            modalBody.querySelector('h2').textContent = 'Yacht ajouté au panier';
+            modalBody.querySelector('p').textContent = `"${yachtName}" a été ajouté à votre panier avec succès.`;
+        }
+        
+        // Afficher le modal
+        this.confirmationModal.style.display = 'block';
+    },
+    
+    // Afficher le modal d'erreur
+    showErrorModal: function(message) {
+        if (!this.errorModal) return;
+        
+        // Mettre à jour le contenu du modal
+        const modalBody = this.errorModal.querySelector('.modal-body');
+        if (modalBody) {
+            modalBody.querySelector('p').textContent = message;
+        }
+        
+        // Afficher le modal
+        this.errorModal.style.display = 'block';
+    },
+    
+    // Initialiser les suggestions
+    initSuggestions: function() {
+        if (!this.suggestionContainer) return;
+        
+        // Récupérer la liste des suggestions
+        const suggestions = this.getSuggestions();
+        
+        // Afficher les suggestions
+        this.renderSuggestions(suggestions);
+    },
+    
+    // Récupérer la liste des suggestions
+    getSuggestions: function() {
+        // Liste des yachts disponibles
+        const availableYachts = [
+            {
+                id: 'yacht-tecnomar-63',
+                name: '2021 Tecnomar 63',
+                price: '3,790,000 €',
+                image: 'styles/img/Bateauaccueil1.png',
+                type: 'Motoryacht',
+                specs: {
+                    length: '19m',
+                    year: '2021'
+                }
+            },
+            {
+                id: 'yacht-heysea-asteria-142',
+                name: '2023 Heysea Asteria 142',
+                price: '23,611,815 €',
+                image: 'styles/img/Bateauaccueil2.png',
+                type: 'Mega Yacht',
+                specs: {
+                    length: '43m',
+                    year: '2023'
+                }
+            },
+            {
+                id: 'yacht-fountaine-pajot-alegria-67',
+                name: '2025 Fountaine Pajot Alegria 67',
+                price: '484,571 €',
+                image: 'styles/img/Bateauaccueil3.png',
+                type: 'Catamaran',
+                specs: {
+                    length: '20m',
+                    year: '2025'
+                }
+            },
+            {
+                id: 'yacht-cheoy-lee-66-lrc',
+                name: '1982 Cheoy Lee 66 LRC',
+                price: '511,002 €',
+                image: 'styles/img/Bateauaccueil4.png',
+                type: 'Motoryacht',
+                specs: {
+                    length: '20m',
+                    year: '1982'
+                }
+            },
+            {
+                id: 'yacht-icon-67m',
+                name: '2010 Icon 67m',
+                price: '41,792,889 €',
+                image: 'styles/img/Bateau2arrière.png',
+                type: 'Mega Yacht',
+                specs: {
+                    length: '67.36m',
+                    year: '2010'
+                }
+            },
+            {
+                id: 'yacht-sunseeker-portofino-47',
+                name: '2009 Sunseeker Portofino 47',
+                price: '329,000 €',
+                image: 'styles/img/Bateau1arrière.png',
+                type: 'Motoryacht',
+                specs: {
+                    length: '14.95m',
+                    year: '2009'
+                }
+            }
+        ];
+        
+        return availableYachts;
+    },
+    
+    // Afficher les suggestions
+    renderSuggestions: function(suggestions) {
+        if (!this.suggestionContainer) return;
+        
+        // Vider le conteneur
+        this.suggestionContainer.innerHTML = '';
+        
+        // Récupérer le panier
+        const cart = this.getCart();
+        
+        // Filtrer les suggestions pour exclure les yachts déjà dans le panier
+        const filteredSuggestions = suggestions.filter(suggestion => 
+            !cart.some(item => item.id === suggestion.id)
+        );
+        
+        // Limiter à 3 suggestions
+        const limitedSuggestions = filteredSuggestions.slice(0, 3);
+        
+        // Si pas de suggestions
+        if (limitedSuggestions.length === 0) {
+            this.suggestionContainer.innerHTML = `
+                <div class="no-suggestions">
+                    <p>Aucune suggestion disponible pour le moment.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Créer les éléments HTML pour chaque suggestion
+        limitedSuggestions.forEach(suggestion => {
+            const suggestionElement = document.createElement('div');
+            suggestionElement.className = 'suggestion-item';
+            suggestionElement.dataset.id = suggestion.id;
+            
+            suggestionElement.innerHTML = `
+                <div class="suggestion-image">
+                    <img src="${suggestion.image}" alt="${suggestion.name}">
+                    <div class="suggestion-type">${suggestion.type}</div>
+                </div>
+                <div class="suggestion-details">
+                    <h3>${suggestion.name}</h3>
+                    <div class="suggestion-price">${suggestion.price}</div>
+                    <div class="suggestion-specs">
+                        <span>${suggestion.type}</span> • <span>${suggestion.specs.length}</span>
+                    </div>
+                    <button class="add-suggestion-btn">Ajouter au panier</button>
+                </div>
+            `;
+            
+            // Ajouter l'élément au conteneur
+            this.suggestionContainer.appendChild(suggestionElement);
+            
+            // Ajouter l'événement pour le bouton d'ajout
+            const addBtn = suggestionElement.querySelector('.add-suggestion-btn');
+            if (addBtn) {
+                addBtn.addEventListener('click', () => {
+                    const yachtData = this.getYachtDataFromButton(addBtn);
+                    
+                    if (yachtData) {
+                        // Vérifier si le yacht est déjà dans le panier
+                        if (this.isYachtInCart(yachtData.id)) {
+                            // Afficher un message d'erreur
+                            this.showErrorModal('Ce yacht est déjà dans votre panier. Chaque yacht est unique et ne peut être ajouté qu\'une seule fois.');
+                        } else {
+                            // Ajouter au panier
+                            const success = this.addToCart(yachtData);
+                            
+                            if (success) {
+                                // Animation et feedback
+                                this.animateAddToCart(addBtn, yachtData.name);
+                                
+                                // Mettre à jour les suggestions
+                                setTimeout(() => {
+                                    this.updateSuggestions(this.getCart());
+                                }, 500);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    },
+    
+    // Mettre à jour les suggestions
+    updateSuggestions: function(cartItems) {
+        // Récupérer la liste des suggestions
+        const suggestions = this.getSuggestions();
+        
+        // Afficher les suggestions filtrées
+        this.renderSuggestions(suggestions);
+    },
+    
+    // Formatage du prix
+    formatPrice: function(price) {
+        return new Intl.NumberFormat('fr-FR', {
+            style: 'currency',
+            currency: 'EUR',
+            maximumFractionDigits: 0
+        }).format(price);
+    },
+    
+    // Formatage des textes d'option
+    getPurchaseTypeText: function(type) {
+        switch (type) {
+            case 'full': return 'Achat complet';
+            case 'part': return 'Copropriété (25%)';
+            case 'lease': return 'Location longue durée';
+            default: return 'Achat complet';
+        }
+    },
+    
+    getDeliveryLocationText: function(location) {
+        switch (location) {
+            case 'current': return 'Emplacement actuel';
+            case 'monaco': return 'Monaco';
+            case 'cannes': return 'Cannes';
+            case 'stTropez': return 'Saint-Tropez';
+            default: return 'Emplacement actuel';
+        }
+    },
+    
+    getCrewText: function(crew) {
+        switch (crew) {
+            case 'none': return 'Sans équipage';
+            case 'basic': return 'Équipage basique (3 personnes)';
+            case 'full': return 'Équipage complet (8 personnes)';
+            default: return 'Sans équipage';
+        }
     }
 };
 
