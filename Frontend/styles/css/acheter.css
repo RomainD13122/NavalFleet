@@ -1,6 +1,8 @@
-/* Styles spécifiques à la page d'achat */
+/* ==========================================================================
+   ACHETER PAGE STYLES
+   ========================================================================== */
 
-/* Correction pour le header */
+/* Header override for acheter page */
 header {
     background-color: #0a4b78;
 }
@@ -13,10 +15,13 @@ header .logo {
     color: #fff;
 }
 
-/* Hero de recherche */
+/* ==========================================================================
+   SEARCH HERO SECTION
+   ========================================================================== */
 .search-hero {
     padding: 120px 0 60px;
-    background: linear-gradient(rgba(10, 75, 120, 0.8), rgba(10, 75, 120, 0.8)), url('../../styles/img/Bateauaccueil2.png') center/cover no-repeat;
+    background: linear-gradient(rgba(10, 75, 120, 0.8), rgba(10, 75, 120, 0.8)), 
+                url('../../styles/img/Bateauaccueil2.png') center/cover no-repeat;
     text-align: center;
     color: #fff;
 }
@@ -55,7 +60,9 @@ header .logo {
     background-color: #c7971e;
 }
 
-/* Layout principal */
+/* ==========================================================================
+   YACHT LISTING CONTAINER
+   ========================================================================== */
 .yacht-listing-container {
     padding: 60px 0;
     background-color: #f9f9f9;
@@ -66,7 +73,9 @@ header .logo {
     gap: 30px;
 }
 
-/* Sidebar de filtres */
+/* ==========================================================================
+   FILTERS SIDEBAR
+   ========================================================================== */
 .filters-sidebar {
     width: 280px;
     flex-shrink: 0;
@@ -139,6 +148,11 @@ header .logo {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.apply-range:hover {
+    background-color: #083a5e;
 }
 
 .reset-filters {
@@ -157,7 +171,9 @@ header .logo {
     background-color: #e5e5e5;
 }
 
-/* Section de résultats */
+/* ==========================================================================
+   YACHT RESULTS
+   ========================================================================== */
 .yacht-results {
     flex: 1;
 }
@@ -187,7 +203,9 @@ header .logo {
     background-color: #fff;
 }
 
-/* Grille de yachts */
+/* ==========================================================================
+   YACHT CARD STYLES
+   ========================================================================== */
 .yacht-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -286,14 +304,16 @@ header .logo {
     color: #0a4b78;
     font-weight: bold;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: color 0.3s;
 }
 
 .yacht-link:hover {
     color: #d9a82e;
 }
 
-/* Pagination */
+/* ==========================================================================
+   PAGINATION
+   ========================================================================== */
 .pagination {
     display: flex;
     justify-content: center;
@@ -329,7 +349,9 @@ header .logo {
     padding: 0 15px;
 }
 
-/* Responsive */
+/* ==========================================================================
+   RESPONSIVE STYLES
+   ========================================================================== */
 @media screen and (max-width: 980px) {
     .yacht-listing-container .container {
         flex-direction: column;

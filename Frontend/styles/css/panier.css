@@ -1,6 +1,8 @@
-/* Styles pour la page panier */
+/* ==========================================================================
+   PANIER (CART) PAGE STYLES
+   ========================================================================== */
 
-/* Correction pour le header */
+/* Header override for panier page */
 header {
     background-color: #0a4b78;
 }
@@ -13,7 +15,9 @@ header .logo {
     color: #fff;
 }
 
-/* Section titre du panier */
+/* ==========================================================================
+   CART TITLE SECTION
+   ========================================================================== */
 .cart-title-section {
     padding: 120px 0 30px;
     background-color: #f9f9f9;
@@ -26,7 +30,9 @@ header .logo {
     text-align: center;
 }
 
-/* Section panier principale */
+/* ==========================================================================
+   CART SECTION
+   ========================================================================== */
 .cart-section {
     padding: 40px 0 80px;
     background-color: #f9f9f9;
@@ -38,7 +44,9 @@ header .logo {
     margin-bottom: 60px;
 }
 
-/* Liste des articles */
+/* ==========================================================================
+   CART ITEMS
+   ========================================================================== */
 .cart-items {
     flex: 2;
     background-color: #fff;
@@ -54,12 +62,19 @@ header .logo {
     font-weight: 600;
 }
 
-/* Article individuel */
+/* Cart item */
 .cart-item {
     display: flex;
     gap: 20px;
     padding-bottom: 30px;
+    margin-bottom: 30px;
     border-bottom: 1px solid #eee;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .item-image {
@@ -117,15 +132,19 @@ header .logo {
     gap: 15px;
 }
 
-.edit-btn, .remove-btn {
+.edit-btn, 
+.remove-btn {
     background: none;
     border: none;
     font-size: 14px;
-    color: #0a4b78;
     cursor: pointer;
     transition: color 0.3s;
     font-weight: 500;
     padding: 0;
+}
+
+.edit-btn {
+    color: #0a4b78;
 }
 
 .edit-btn:hover {
@@ -157,7 +176,9 @@ header .logo {
     color: #666;
 }
 
-/* Résumé de la commande */
+/* ==========================================================================
+   ORDER SUMMARY
+   ========================================================================== */
 .order-summary {
     flex: 1;
     background: linear-gradient(to bottom, #ffffff, #f8fbff);
@@ -212,7 +233,73 @@ header .logo {
     color: #0a4b78;
 }
 
-.checkout-btn, .clear-cart-btn {
+/* Promo Code Section */
+.promo-code-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.promo-code-section h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #0a4b78;
+}
+
+.promo-code-input {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.promo-code-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.promo-code-input button {
+    background-color: #0a4b78;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.promo-code-input button:hover {
+    background-color: #0c5a91;
+}
+
+.promo-message {
+    font-size: 14px;
+    margin-top: 5px;
+    min-height: 20px;
+}
+
+.promo-message.success {
+    color: #2ecc71;
+}
+
+.promo-message.error {
+    color: #e74c3c;
+}
+
+.discount-row {
+    color: #2ecc71;
+    font-weight: 500;
+}
+
+.discount-row.active {
+    display: flex !important;
+}
+
+/* Checkout Button */
+.checkout-btn, 
+.clear-cart-btn {
     width: 100%;
     padding: 16px 0;
     border: none;
@@ -245,6 +332,7 @@ header .logo {
     background-color: #fff0f0;
 }
 
+/* Payment Methods */
 .payment-methods {
     position: relative;
     z-index: 1;
@@ -315,7 +403,9 @@ header .logo {
     color: #333;
 }
 
-/* Panier vide */
+/* ==========================================================================
+   EMPTY CART
+   ========================================================================== */
 .empty-cart {
     text-align: center;
     padding: 40px 0;
@@ -357,7 +447,9 @@ header .logo {
     transform: translateY(-2px);
 }
 
-/* Suggestions */
+/* ==========================================================================
+   SUGGESTIONS
+   ========================================================================== */
 .suggestions {
     margin-top: 60px;
 }
@@ -443,7 +535,32 @@ header .logo {
     background-color: #f0f7fc;
 }
 
-/* Responsive */
+/* ==========================================================================
+   CART NOTIFICATION
+   ========================================================================== */
+.cart-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0a4b78;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.cart-notification.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   RESPONSIVE STYLES
+   ========================================================================== */
 @media screen and (max-width: 1024px) {
     .cart-container {
         flex-direction: column;
@@ -475,69 +592,14 @@ header .logo {
 }
 
 @media screen and (max-width: 480px) {
-    .cart-items, .order-summary {
+    .cart-items, 
+    .order-summary {
         padding: 20px 15px;
     }
-}
-.promo-code-section {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
-}
-
-.promo-code-section h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #0a4b78;
-}
-
-.promo-code-input {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-.promo-code-input input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.promo-code-input button {
-    background-color: #0a4b78;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 0 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.promo-code-input button:hover {
-    background-color: #0c5a91;
-}
-
-.promo-message {
-    font-size: 14px;
-    margin-top: 5px;
-    min-height: 20px;
-}
-
-.promo-message.success {
-    color: #2ecc71;
-}
-
-.promo-message.error {
-    color: #e74c3c;
-}
-
-.discount-row {
-    color: #2ecc71;
-    font-weight: 500;
-}
-
-.discount-row.active {
-    display: flex !important;
+    
+    .cart-notification {
+        left: 20px;
+        right: 20px;
+        text-align: center;
+    }
 }

@@ -1,6 +1,8 @@
-/* Styles spécifiques pour la page de détail de yacht */
+/* ==========================================================================
+   YACHT DETAIL PAGE STYLES
+   ========================================================================== */
 
-/* Correction pour le header */
+/* Header override for yacht detail page */
 header {
     background-color: #0a4b78;
 }
@@ -13,7 +15,9 @@ header .logo {
     color: #fff;
 }
 
-/* Fil d'ariane */
+/* ==========================================================================
+   BREADCRUMB
+   ========================================================================== */
 .breadcrumb {
     padding: 100px 20px 20px;
     background-color: #f9f9f9;
@@ -24,10 +28,12 @@ header .logo {
     color: #0a4b78;
     text-decoration: none;
     margin-right: 5px;
+    transition: color 0.3s;
 }
 
 .breadcrumb a:hover {
     text-decoration: underline;
+    color: #d9a82e;
 }
 
 .breadcrumb span {
@@ -35,7 +41,9 @@ header .logo {
     margin-left: 5px;
 }
 
-/* Section titre du yacht */
+/* ==========================================================================
+   YACHT TITLE SECTION
+   ========================================================================== */
 .yacht-title-section {
     padding: 30px 0;
     background-color: #f9f9f9;
@@ -91,18 +99,21 @@ header .logo {
     color: #d9a82e;
 }
 
-/* Section galerie et contact */
+/* ==========================================================================
+   GALLERY SECTION
+   ========================================================================== */
 .yacht-gallery-section {
     padding: 40px 0;
     background-color: #fff;
 }
 
+.gallery-purchase-wrapper,
 .gallery-contact-wrapper {
     display: flex;
     gap: 30px;
 }
 
-/* Galerie principale */
+/* Main gallery */
 .main-gallery {
     flex: 2;
 }
@@ -113,6 +124,7 @@ header .logo {
     overflow: hidden;
     border-radius: 8px;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .main-image img {
@@ -121,12 +133,22 @@ header .logo {
     object-fit: cover;
 }
 
+.view-label {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(10, 75, 120, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
 .thumbnail-row {
     display: flex;
     gap: 10px;
     align-items: center;
     margin-bottom: 15px;
-    position: relative;
 }
 
 .thumbnail {
@@ -137,6 +159,7 @@ header .logo {
     cursor: pointer;
     opacity: 0.7;
     transition: opacity 0.3s;
+    position: relative;
 }
 
 .thumbnail img {
@@ -145,55 +168,146 @@ header .logo {
     object-fit: cover;
 }
 
-.thumbnail.active, .thumbnail:hover {
+.thumbnail-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 0;
+    text-align: center;
+}
+
+.thumbnail.active, 
+.thumbnail:hover {
     opacity: 1;
 }
 
-.gallery-nav {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 15px;
+/* ==========================================================================
+   PURCHASE BOX
+   ========================================================================== */
+.purchase-box {
+    flex: 1;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    align-self: flex-start;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.nav-btn {
-    cursor: pointer;
+.purchase-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.purchase-header h3 {
     color: #0a4b78;
-    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
-.gallery-counter {
+.purchase-options {
+    margin-bottom: 25px;
+}
+
+.option-group {
+    margin-bottom: 15px;
+}
+
+.option-group label {
+    display: block;
+    margin-bottom: 5px;
     color: #666;
     font-size: 14px;
 }
 
-.gallery-actions {
-    display: flex;
-    gap: 15px;
+.purchase-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
 }
 
-.action-btn {
-    background-color: #f1f1f1;
-    border: none;
+.purchase-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.add-to-cart-btn,
+.buy-now-btn {
+    padding: 12px 0;
     border-radius: 5px;
-    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    font-size: 14px;
+    flex: 1;
+    text-align: center;
+}
+
+.add-to-cart-btn {
+    background-color: #fff;
+    color: #0a4b78;
+    border: 1px solid #0a4b78;
+}
+
+.buy-now-btn {
+    background-color: #0a4b78;
+    color: #fff;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #f0f7fc;
+}
+
+.buy-now-btn:hover {
+    background-color: #083a5e;
+}
+
+.purchase-info {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.info-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: #f1f7fb;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+.info-icon {
+    width: 24px;
+    height: 24px;
+    background-color: #0a4b78;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    color: #fff;
+    font-size: 12px;
+}
+
+.info-text {
     font-size: 14px;
-    transition: background-color 0.3s;
+    color: #333;
 }
 
-.action-btn:hover {
-    background-color: #e5e5e5;
-}
-
-.icon {
-    font-size: 18px;
-}
-
-/* Carte contact courtier */
+/* ==========================================================================
+   BROKER CONTACT
+   ========================================================================== */
 .broker-contact {
     flex: 1;
     background-color: #f9f9f9;
@@ -289,7 +403,9 @@ header .logo {
     background-color: #c7971e;
 }
 
-/* Section caractéristiques */
+/* ==========================================================================
+   SPECS SECTION
+   ========================================================================== */
 .yacht-specs-section {
     padding: 60px 0;
     background-color: #f9f9f9;
@@ -338,7 +454,9 @@ header .logo {
     color: #333;
 }
 
-/* Section description */
+/* ==========================================================================
+   DESCRIPTION SECTION
+   ========================================================================== */
 .yacht-description-section {
     padding: 60px 0;
     background-color: #fff;
@@ -359,13 +477,14 @@ header .logo {
     margin: 30px 0 15px;
 }
 
-/* Section yachts similaires */
+/* ==========================================================================
+   SIMILAR YACHTS SECTION
+   ========================================================================== */
 .similar-yachts-section {
     padding: 60px 0;
     background-color: #f9f9f9;
 }
 
-/* Réutilisation des styles de carte de yacht depuis acheter.css */
 .yacht-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -373,106 +492,19 @@ header .logo {
     margin-bottom: 40px;
 }
 
-.yacht-card {
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
 }
 
-.yacht-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.yacht-image {
-    height: 200px;
-    overflow: hidden;
-    position: relative;
-}
-
-.yacht-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-}
-
-.yacht-card:hover .yacht-image img {
-    transform: scale(1.05);
-}
-
-.yacht-type {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: rgba(10, 75, 120, 0.8);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.yacht-details {
-    padding: 20px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.yacht-name {
-    font-size: 18px;
-    color: #0a4b78;
-    margin-bottom: 10px;
-}
-
-.yacht-price {
-    font-size: 20px;
-    color: #d9a82e;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.yacht-specs {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-}
-
-.spec-item {
-    font-size: 14px;
-    color: #666;
-    display: flex;
-    align-items: center;
-}
-
-.yacht-location {
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 15px;
-}
-
-.yacht-link {
-    display: inline-block;
-    color: #0a4b78;
-    font-weight: bold;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    margin-top: auto;
-}
-
-.yacht-link:hover {
-    color: #d9a82e;
-}
-
-/* Responsive */
+/* ==========================================================================
+   RESPONSIVE STYLES
+   ========================================================================== */
 @media screen and (max-width: 980px) {
+    .gallery-purchase-wrapper,
     .gallery-contact-wrapper {
         flex-direction: column;
     }
@@ -505,20 +537,15 @@ header .logo {
     .specs-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
+    
+    .purchase-actions {
+        flex-direction: column;
+    }
 }
 
 @media screen and (max-width: 480px) {
     .yacht-title h1 {
         font-size: 24px;
-    }
-    
-    .gallery-actions {
-        flex-direction: column;
-    }
-    
-    .action-btn {
-        width: 100%;
-        justify-content: center;
     }
     
     .main-image {

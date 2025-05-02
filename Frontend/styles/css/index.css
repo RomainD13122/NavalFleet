@@ -1,5 +1,7 @@
-/* Styles généraux */
-* {
+/* ==========================================================================
+   BASE STYLES
+   ========================================================================== */
+   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -12,19 +14,47 @@ body {
     line-height: 1.6;
 }
 
+/* ==========================================================================
+   LAYOUT & CONTAINERS
+   ========================================================================== */
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Header */
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+.section-title {
+    text-align: center;
+    margin-bottom: 60px;
+    color: #0a4b78;
+    font-size: 36px;
+    position: relative;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 3px;
+    background-color: #d9a82e;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
 header {
     background-color: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: fixed;
     width: 100%;
     z-index: 1000;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .header-content {
@@ -38,12 +68,14 @@ header {
     font-size: 28px;
     font-weight: bold;
     color: #0a4b78;
+    transition: color 0.3s;
 }
 
 .logo span {
     color: #d9a82e;
 }
 
+/* Navigation */
 nav ul {
     display: flex;
     list-style: none;
@@ -57,17 +89,21 @@ nav ul li a {
     text-decoration: none;
     color: #0a4b78;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: color 0.3s;
 }
 
-nav ul li a:hover {
+nav ul li a:hover, 
+nav ul li a.active {
     color: #d9a82e;
 }
 
-/* Section Hero */
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
 .hero {
     height: 100vh;
-    background: linear-gradient(rgba(10, 75, 120, 0.6), rgba(10, 75, 120, 0.6)), url('../../styles/img/Bateauaccueil2.png') center/cover no-repeat;
+    background: linear-gradient(rgba(10, 75, 120, 0.6), rgba(10, 75, 120, 0.6)), 
+                url('../../styles/img/Bateauaccueil2.png') center/cover no-repeat;
     display: flex;
     align-items: center;
     color: #fff;
@@ -91,6 +127,7 @@ nav ul li a:hover {
     margin-bottom: 30px;
 }
 
+/* CTA Button */
 .cta-button {
     display: inline-block;
     background-color: #d9a82e;
@@ -108,29 +145,12 @@ nav ul li a:hover {
     transform: translateY(-3px);
 }
 
-/* Section À propos */
+/* ==========================================================================
+   ABOUT SECTION
+   ========================================================================== */
 .about {
     padding: 100px 0;
     background-color: #fff;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 60px;
-    color: #0a4b78;
-    font-size: 36px;
-    position: relative;
-}
-
-.section-title:after {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 3px;
-    background-color: #d9a82e;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 .about-content {
@@ -156,7 +176,9 @@ nav ul li a:hover {
     margin-bottom: 20px;
 }
 
-/* Section Yachts en vedette */
+/* ==========================================================================
+   FEATURED YACHTS SECTION
+   ========================================================================== */
 .featured-yachts {
     padding: 100px 0;
     background-color: #f9f9f9;
@@ -190,6 +212,11 @@ nav ul li a:hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.yacht-card:hover .yacht-image img {
+    transform: scale(1.05);
 }
 
 .yacht-details {
@@ -225,14 +252,16 @@ nav ul li a:hover {
     color: #0a4b78;
     font-weight: bold;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: color 0.3s;
 }
 
 .yacht-link:hover {
     color: #d9a82e;
 }
 
-/* Section Services */
+/* ==========================================================================
+   SERVICES SECTION
+   ========================================================================== */
 .services {
     padding: 100px 0;
     background-color: #fff;
@@ -262,6 +291,7 @@ nav ul li a:hover {
     font-size: 40px;
     margin-bottom: 20px;
     color: #d9a82e;
+    transition: color 0.3s;
 }
 
 .service-card:hover .service-icon {
@@ -273,7 +303,9 @@ nav ul li a:hover {
     font-size: 22px;
 }
 
-/* Section Témoignages */
+/* ==========================================================================
+   TESTIMONIALS SECTION
+   ========================================================================== */
 .testimonials {
     padding: 100px 0;
     background-color: #f9f9f9;
@@ -341,13 +373,16 @@ nav ul li a:hover {
     background-color: #ccc;
     margin: 0 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .dot.active {
     background-color: #0a4b78;
 }
 
-/* Section Contact */
+/* ==========================================================================
+   CONTACT SECTION
+   ========================================================================== */
 .contact {
     padding: 100px 0;
     background-color: #0a4b78;
@@ -400,14 +435,16 @@ nav ul li a:hover {
     padding: 12px 30px;
     border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s;
 }
 
 .submit-button:hover {
     background-color: #c7971e;
 }
 
-/* Footer */
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
 footer {
     background-color: #051c2c;
     color: #fff;
@@ -444,7 +481,7 @@ footer {
 .footer-column ul li a {
     color: #ccc;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: color 0.3s;
 }
 
 .footer-column ul li a:hover {
@@ -459,7 +496,29 @@ footer {
     color: #ccc;
 }
 
-/* Responsive */
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+.animated {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES
+   ========================================================================== */
+@media screen and (max-width: 992px) {
+    .about-content,
+    .contact-content {
+        flex-direction: column;
+    }
+    
+    .about-content > div,
+    .contact-content > div {
+        width: 100%;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -478,11 +537,27 @@ footer {
         font-size: 36px;
     }
     
-    .about-content {
-        flex-direction: column;
+    .yacht-grid,
+    .services-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .hero h1 {
+        font-size: 28px;
     }
     
-    .contact-content {
-        flex-direction: column;
+    .hero p {
+        font-size: 16px;
+    }
+    
+    .section-title {
+        font-size: 28px;
+    }
+    
+    .yacht-grid,
+    .services-grid {
+        grid-template-columns: 1fr;
     }
 }
