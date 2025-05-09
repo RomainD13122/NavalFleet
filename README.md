@@ -126,7 +126,3 @@ NavalFleet - Votre expert en yachts de luxe depuis 2025
 ## Licence
 
 © 2025 NavalFleet. Tous droits réservés.
-
----
-
-*Ce projet est à des fins démonstratives et éducatives.*
