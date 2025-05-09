@@ -556,7 +556,7 @@ const NavalfleetCart = {
                 // Calculer la remise
                 let discountValue = 0;
                 
-                if (activePromo.code === 'ALLAN') {
+                if (activePromo.code === 'ALAN') {
                     // Remise de 100%
                     discountValue = totalPrice;
                 } else if (activePromo.percentOff) {
@@ -613,10 +613,10 @@ const NavalfleetCart = {
             this.setActivePromo({
                 code: 'ALAN',
                 percentOff: 100,
-                message: 'Code promotionnel ALLAN appliqué - 100% de réduction!'
+                message: 'Code promotionnel ALAN appliqué - 100% de réduction!'
             });
             
-            this.showPromoMessage('Code ALLAN appliqué avec succès! Votre commande est gratuite!', 'success');
+            this.showPromoMessage('Code ALAN appliqué avec succès! Votre commande est gratuite!', 'success');
             
             // Mettre à jour l'affichage
             this.updateCartDisplay();
